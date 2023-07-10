@@ -1,0 +1,27 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    gap: 1.25rem;
+}
+
+.categoryItemWrapper{
+    padding: 1rem 1.25rem;
+    border-radius: 0.5rem;
+    outline: 1px solid #BBB;
+    background: #fff;
+    border: 0.25rem solid #fff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.625rem;
+    h2{
+        color: #000;
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
+    &:hover{
+        border: 0.25rem solid #0047FF;
+    }
+}

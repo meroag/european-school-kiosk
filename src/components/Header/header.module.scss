@@ -1,0 +1,40 @@
+.headerWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 0 2.5rem;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 1.875rem;
+    img{
+            width: 5rem;
+    } 
+    h1{
+        color: #000;
+        font-size: 1.875rem;
+        font-weight: 600;
+    }
+}
+
+.languageNavigation{
+    display: flex;
+    gap: 2.5rem;
+    a{
+        display: flex;
+        gap: 0.625rem;
+        text-decoration: none;
+        position: relative;
+        opacity: 25%;
+        cursor: pointer;
+    }
+    img{
+        width: 2rem;
+    }
+}
+
+.languageNavigationActiveLink{
+    opacity: 100% !important;
+}

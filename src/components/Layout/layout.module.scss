@@ -1,0 +1,60 @@
+.layoutWrapper {
+    padding: 0 2.5rem 2rem;
+}
+
+.modalContentWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1.125rem 1.125rem;
+    max-width: 30rem;
+    h2{
+        margin-top: 1.125rem;
+        margin-bottom: 0.75rem;
+        color: #000;
+        text-align: center;
+        font-size: 1.75rem;
+        font-weight: 500;
+    }
+    h3{
+        color: #000;
+        text-align: center;
+        font-size: 1.125rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    p{
+        color: #000;
+        font-size: 1.125rem;
+        font-weight: 500;
+        text-align: center;
+        padding: 0 2rem;
+    }
+    img{
+        margin-top: 2.5rem;
+        width: 15.625rem;
+        margin-bottom: 0.625rem;
+    }
+    span{
+        color: #487F1E;
+        text-align: center;
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
+    button{
+        margin-top: 2.5rem;
+        border-radius: 0.5rem;
+        background: #1C1952;
+        padding: 1.125rem;
+        color: #FFF;
+        font-size: 1.5rem;
+        font-weight: 600;
+        width: 100%;
+        cursor: pointer;
+    }
+}
+
+.modalIcon{
+    display: flex;
+    justify-content: center;
+}

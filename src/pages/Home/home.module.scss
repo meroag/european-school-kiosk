@@ -1,0 +1,47 @@
+.wrapper{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.topWrapper{
+    background-color: #1C1952;
+    display: flex;
+    justify-content: center;
+    padding-block: 10vh;
+    height: 100%;
+}
+
+.logoWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.875rem;
+    img{
+        height: 15.625rem;
+    }
+    h1{
+        color: #FFF;
+        font-size: 3rem;
+        font-weight: 600;
+    }
+}
+
+.navWrapper{
+    margin-top: auto;
+    padding-top: 12vh;
+    padding-bottom: 3rem;
+    nav{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding-inline: 1rem;
+        gap: 1rem;
+    }
+    a{
+        box-shadow: 0 0 3.5rem 0 rgba(0, 0, 0, 0.25);
+    }
+    img{
+        height: 12rem;
+    }
+}
