@@ -1,0 +1,21 @@
+POST /mark4/operations/SaveOrder
+
+{
+  "OrderId": 0,
+  "StoreId": 0,
+  "StoreName": "string",
+  "DriverID": 0,
+  "Driver": "string",
+  "Details": [
+    {
+      "Id": 0,
+      "ProductId": "string",
+      "ProductName": "string",
+      "Quantity": 0,
+      "Price": 0,
+      "Total": 0,
+      "Points": 0,
+      "ProdVariation": "string"
+    }
+  ]
+}

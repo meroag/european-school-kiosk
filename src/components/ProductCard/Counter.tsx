@@ -1,24 +1,28 @@
-import { useState } from "react"
+import { MouseEvent } from "react"
 import SvgIcon from "../../vendor/svgr/SvgIcon"
 import styles from "./card.module.scss"
 
 interface CounterProps {
-    visible: boolean;
+    amount: number;
+    visible?: boolean;
     withRightControl?: boolean;
+
+    onPlusHandle: (e: MouseEvent<HTMLButtonElement>) => void;
+    onMinusHandle: (e: MouseEvent<HTMLButtonElement>) => void;
+    onCancelHandle: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Counter = ({visible, withRightControl}: CounterProps) => {
-    const [count, setCount] = useState(1)
+const Counter = ({amount, visible, withRightControl, onPlusHandle, onMinusHandle, onCancelHandle}: CounterProps) => {
 
   return (
     <div className={`${visible && styles.itemCounterVisible} ${withRightControl && styles.withRightControl} ${styles.itemCounter}`}>
-        {count == 1 ? <button className={styles.cancelButton}>
+        {amount == 1 ? <button className={styles.cancelButton} onClick={(e) => onCancelHandle(e)}>
             <SvgIcon iconName="cancel" />
-        </button> : <button className={styles.minusButton}>
+        </button> : <button className={styles.minusButton} onClick={(e) => onMinusHandle(e)}>
             <SvgIcon iconName="minus" />
         </button>}
-        <span className={styles.itemAmount}>1</span>
-        <button className={styles.plusButton}>
+        <span className={styles.itemAmount}>{amount}</span>
+        <button className={styles.plusButton} onClick={(e) => onPlusHandle(e)}>
             <SvgIcon iconName="plus" />
         </button>
     </div>

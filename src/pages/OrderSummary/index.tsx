@@ -2,9 +2,12 @@ import { useTranslation } from "react-i18next"
 import Layout from "../../components/Layout"
 import ProductCard from "../../components/ProductCard"
 import styles from "./order-summary.module.scss"
+import useCartStore from "../../store/useCartStore"
 
 const OrderSummary = () => {
     const { t } = useTranslation()
+    const products = useCartStore(state => state.products)
+
   return (
     <Layout>
         <div className={styles.wrapper}>
@@ -15,8 +18,8 @@ const OrderSummary = () => {
             <div className={styles.orderWrapper}>
                 <h2>{t("Order summary")}</h2>
                 <div className={styles.orderList}>
-                    {Array(8).fill("").map((_,i) => (
-                        <ProductCard withRightControl={true} key={i} />
+                    {products.map((product) => (
+                        <ProductCard withRightControl={true} key={product.ProdCode} product={product} />
                     ))}
                 </div>
             </div>

@@ -1,83 +1,102 @@
-import { useState } from "react"
-import SvgIcon from "../../vendor/svgr/SvgIcon"
 import ProductCard from "../ProductCard"
 import styles from "./cart.module.scss"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import "./cart.scss"
+import { FreeMode } from 'swiper/modules';
+import useCartStore from "../../store/useCartStore";
+import useCartTotal from "../../hooks/useCartTotal";
+
+const CartHeader = () => {
+    const { t } = useTranslation()
+    const total = useCartTotal()
+    
+    return (
+        <div className={styles.header}>
+            <h2>{t("Order summary")}</h2>
+            <ul>
+                <li>
+                    {t("Products")}:
+                    <span>{total.products}</span>
+                </li>
+                <li>
+                    {t("Calories")}:
+                    <span>{total.calories}kcal</span>
+                </li>
+            </ul>
+            <div className={styles.totalPrice}>
+                {t("Total Price")}:
+                <span>{total.price}₾</span>
+            </div>
+        </div>
+    )
+}
 
 const Cart = () => {
     const location = useLocation()
+    const navigate = useNavigate();
     const { t } = useTranslation()
     const isOrderSummayPage = location.pathname == "/order-summary"
-    const [isOrderListVisible, setisOrderListVisible] = useState(true)
+
+    const products = useCartStore(state => state.products)
+    const resetStates = useCartStore(state => state.resetStates)
+    const finalizeOrder = useCartStore(state => state.finalizeOrder)
+    
+    const onOrderClick = () => {
+        navigate("/order-summary")
+    }
+
+    const onGoBackClick = () => {
+        navigate("/products")
+    }
+
+    const onCancelOrder = () => {
+        resetStates()
+        navigate("/")
+    }
+
+    const onFinalizeOrder = () => {
+        finalizeOrder()
+    }
 
     if(isOrderSummayPage){
         return (
             <div className={styles.wrapper}>
-            <div className={styles.header}>
-                <h2>{t("Order summary")}</h2>
-                <ul>
-                    <li>
-                        {t("Products")}:
-                        <span>5</span>
-                    </li>
-                    <li>
-                        {t("Calories")}:
-                        <span>850kcal</span>
-                    </li>
-                </ul>
-                <div className={styles.totalPrice}>
-                    {t("Total Price")}:
-                    <span>124.99₾</span>
-                </div>
-            </div>
+            <CartHeader />
             <div className={styles.footer}>
-                <button className={styles.cancelOrderBtn}>{t("GO BACK")}</button>
-                <button className={styles.placeOrderBtn}>{t("FINALIZE ORDER")}</button>
+                <button className={styles.cancelOrderBtn} onClick={onGoBackClick}>{t("GO BACK")}</button>
+                <button className={styles.placeOrderBtn} onClick={onFinalizeOrder}>{t("FINALIZE ORDER")}</button>
             </div>
         </div>
         )
     }else{
         return (
           <div className={styles.wrapper}>
-              <div className={styles.header}>
-                  <h2>{t("Your order")}</h2>
-                  <ul>
-                  <li>
-                        {t("Products")}:
-                        <span>5</span>
-                    </li>
-                    <li>
-                        {t("Calories")}:
-                        <span>850kcal</span>
-                    </li>
-                      <li>
-                        {t("Total Price")}:
-                          <span>56.99₾</span>
-                      </li>
-                  </ul>
-                    {isOrderListVisible ? <button onClick={() => setisOrderListVisible(false)}>
-                        {t("HIDE ORDER")}
-                        <SvgIcon 
-                            wrapperStyle={styles.dropdownWrapper}
-                            iconName="dropdown-arrow"
-                        />
-                    </button> : <button className={styles.upsidedown} onClick={() => setisOrderListVisible(true)}>
-                        {t("SHOW ORDER")}
-                        <SvgIcon 
-                            wrapperStyle={styles.dropdownWrapper}
-                            iconName="dropdown-arrow"
-                        />
-                    </button>}
+              <CartHeader />
+              <div className={styles.products} >
+                <Swiper
+                    slidesPerView={"auto"}
+                    spaceBetween={80}
+                    freeMode={true}
+                    pagination={{
+                    clickable: true,
+                    }}
+                    modules={[FreeMode]}
+                    className="mySwiper"
+                >
+                    {products.map((product) => (
+                        <SwiperSlide key={product.ProdCode}>
+                            <ProductCard className={styles.productCard} withRightControl={true} product={product} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
               </div>
-              {isOrderListVisible && <div className={styles.products}>
-                  {Array(7).fill("").map((_, i) => (
-                      <ProductCard key={i} className={styles.productCard} withRightControl={true} />
-                  ))}
-              </div>}
               <div className={styles.footer}>
-                  <button className={styles.cancelOrderBtn}>{t("CANCEL ORDER")}</button>
-                  <button className={styles.placeOrderBtn}>{t("PLACE ORDER")}</button>
+                  <button className={styles.cancelOrderBtn} onClick={onCancelOrder}>{t("CANCEL ORDER")}</button>
+                  <button className={styles.placeOrderBtn} disabled={products.length == 0} onClick={onOrderClick}>{t("ORDER")}</button>
               </div>
           </div>
         )

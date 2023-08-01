@@ -1,0 +1,66 @@
+.selectWrapper{
+    border-radius: 0.1875rem;
+    border: 1px solid #E9E9E9;
+    background: #FFF;   
+    width: 100%;
+    position: relative;
+    height: 2.5rem;
+}
+
+.selectHead{
+    width: 100%;
+    height: 100%;
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.selectHeadValue{
+    color: #000;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.375rem;
+}
+
+.selectHeadBtn{
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    translate: 0 -50%;
+}
+
+.selectBody{
+    position: absolute;
+    left: 0;
+    top: 100%;
+    translate: 0 0.5rem;
+    background-color: #fff;
+    width: 100%;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    z-index: 1;
+}
+
+.selectOptions{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    max-height: 12.75rem;
+    overflow-y: auto;
+}
+
+.selectOption{
+    list-style-type: none;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #E9E9E9;
+    font-size: 0.875rem;
+    transition: 0.2s;
+    &:active{
+       opacity: 75%; 
+    }
+}
+
+.selectOptionActive{
+    opacity: 75%; 
+}

@@ -6,6 +6,11 @@ import "./styles/main.scss"
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import OrderSummary from "./pages/OrderSummary";
+import { useEffect } from "react";
+import useStore from "./store/store";
+import FollowInstructions from "./pages/FollowInstructions";
+import PaymentSuccessful from "./pages/PaymentSuccessful";
+import PaymentDeclined from "./pages/PaymentDeclined";
 
 const router = createBrowserRouter([
   {
@@ -20,9 +25,35 @@ const router = createBrowserRouter([
     path: "/order-summary",
     element: <OrderSummary />,
   },
+  {
+    path: "/follow-instructions",
+    element: <FollowInstructions />,
+  },
+  {
+    path: "/payment-successful",
+    element: <PaymentSuccessful />,
+  },
+  {
+    path: "/payment-declined",
+    element: <PaymentDeclined />,
+  },
 ]);
 
 function App() {
+  const autorization = useStore(state => state.autorization)
+  const isAutorized = useStore(state => state.isAutorized)
+  const getProdNashti = useStore(state => state.getProdNashti)
+
+  useEffect(() => {
+    autorization()
+  }, [])  
+
+  useEffect(() => {
+    if(isAutorized){
+      getProdNashti()
+    }
+  }, [isAutorized])
+
   return (
     <RouterProvider router={router} />
   )
