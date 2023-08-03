@@ -10,7 +10,8 @@ export const endpoints = {
     GetStore: "GetStore",
     GetSalaro: "GetSalaro",
     GetMdzgoli: "GetMdzgoli",
-    SaveOrder: "mark4/operations/SaveOrder"
+    SaveOrder: "mark4/operations/SaveOrder",
+    PayOrders: "POST /mark4/operations/PayOrders"
 }
 
 

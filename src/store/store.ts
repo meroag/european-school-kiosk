@@ -4,6 +4,11 @@ import { axiosAutorization, axiosInstance, endpoints } from "../utils/api"
 import { ProdGroup, Product, ProductsNashti } from "../interfaces"
 
 interface Store {
+    user: {
+        ClientId: number,
+        name: string,
+        token: string,
+    } | null
     isAutorized: boolean
     avaibleProducts: any
     products: Product[];
@@ -21,6 +26,7 @@ interface Store {
 const useStore  = create<Store>((set) => ({
     isAutorized: false,
     avaibleProducts: [],
+    user: null,
     
     products: [],
     categories: [],
@@ -41,7 +47,7 @@ const useStore  = create<Store>((set) => ({
         })
         const token = resp.data.token
         localStorage.setItem("markToken", token)
-        set((state) => ({...state, isAutorized: true}))
+        set((state) => ({...state, user: resp.data, isAutorized: true}))
     },
 
     getProducts: async (categoryId: number) => {

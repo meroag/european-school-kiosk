@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { Product } from "../interfaces";
 import { axiosInstance, axiosOperationInstance, endpoints } from "../utils/api";
 import useSettingStore from "./useSettings";
+import useStore from "./store";
+import useCartTotal from "../hooks/useCartTotal";
 
 interface Store {
     productsByAmount: {
@@ -56,7 +58,27 @@ const useCartStore = create<Store>((set, get) => ({
         set((state) => ({...state, productsByAmount: state.productsByAmount.filter(pr => pr.id != id) }))
     },
 
-    finalizeOrder: () => {
+    getTotalPrice: () => {
+        const products = get().products 
+        const productsByAmount = get().productsByAmount
+      
+        return productsByAmount.reduce((state, pr) => {
+          const productPrice = products.find(p => p.ProdCode == pr.id)?.Fasi1 || 0
+          const productCal = Number(products.find(p => p.ProdCode == pr.id)?.Description2) || 0
+      
+          return {
+            products: state.products + pr.amount,
+            calories: state.calories + productCal * pr.amount,
+            price: state.price + productPrice * pr.amount
+          }
+        }, {
+          price: 0,
+          calories: 0,
+          products: 0,
+        })
+    },
+
+    finalizeOrder: async () => {
         interface finalizeOrderBodyDetail {
             "Id": number,
             "ProductId": string | number,
@@ -66,65 +88,19 @@ const useCartStore = create<Store>((set, get) => ({
             "Total": number
         }
 
-        interface finalizeOrderBody {
-            OrderId: number,
-            StoreId: number,
-            // "StoreName": "string",
-            DriverID: number,
-            // "Driver": "string",
-            Details: finalizeOrderBodyDetail[]
-        }  
-
         const storeCode = useSettingStore.getState().selectedStoreId 
+        const saalroId = useSettingStore.getState().selectedSalaroId 
         const driverCode = useSettingStore.getState().selectedDriver 
+        const cliendId = useStore.getState()?.user?.ClientId
 
         if(!storeCode || !driverCode) return alert("Sometging went wrong")
-
-        // {
-        //     "OrderId": 0,
-        //     "Date": "2023-08-01T13:38:52.275Z",
-        //     "InvoiceNumber": "string",
-        //     "OrderTypeId": 0,
-        //     "OrderType": "string",
-        //     "StoreId": 0,
-        //     "StoreName": "string",
-        //     "ClientId": 0,
-        //     "ClientName": "string",
-        //     "EmployeeId": 0,
-        //     "Employee": "string",
-        //     "DriverID": 0,
-        //     "Driver": "string",
-        //     "CarNumber": "string",
-        //     "TransportationAddress": "string",
-        //     "NeedsTransportation": true,
-        //     "SenderName": "string",
-        //     "ReceiverName": "string",
-        //     "WayBillId": 0,
-        //     "Comment": "string",
-        //     "Details": [
-        //       {
-        //         "Id": 0,
-        //         "ProductId": "string",
-        //         "ProductName": "string",
-        //         "Quantity": 0,
-        //         "Price": 0,
-        //         "Total": 0,
-        //         "Points": 0,
-        //         "ActionsId": "string",
-        //         "ProdVariation": "string"
-        //       }
-        //     ]
-        // }
         
-        const body: any = {
+        const saveOrderBody: any = {
             "OrderId": 0,
-            ClientId: "4395",
-            ClientName: "WebSite კლიენტი",
+            ClientId: cliendId,
             "Date": new Date().toISOString(),
             "StoreId": storeCode,
-            // "StoreName": "string",
             "DriverID": driverCode,
-            // "Driver": "string",
             "Comment": "",
             NeedsTransportation: true,
             "TransportationAddress": "",
@@ -132,58 +108,13 @@ const useCartStore = create<Store>((set, get) => ({
             "ReceiverName": "",
             CarNumber: "",
             "EmployeeId": 1,
-            "Employee": "-",
             "Details": []
-            // "Details": [
-            //     {
-            //     "Id": 0,
-            //     "ProductId": "string",
-            //     "ProductName": "string",
-            //     "Quantity": 0,
-            //     "Price": 0,
-            //     "Total": 0,
-            //     "Points": 0,
-            //     "ProdVariation": "string"
-            //     }
-            // ]
         }
-        // const body = {
-        //     "OrderId": 0,
-        //     "Date": '2023-08-01T13:55:34.410Z',
-        //     "InvoiceNumber": "", 
-        //     "OrderTypeId": 0, 
-        //     "OrderType": "",  
-        //     "StoreId": 3,
-        //     "StoreName": "102/103 ZVE",
-        //     "ClientId": 4395,
-        //     "ClientName": "WebSite კლიენტი",
-        //     "EmployeeId": 0, 
-        //     "Employee": "", 
-        //     "DriverID": 1,
-        //     "Driver": "-",
-        //     "CarNumber": "",
-        //     "TransportationAddress": "",
-        //     "NeedsTransportation": true,
-        //     "SenderName": "",
-        //     "ReceiverName": "",
-        //     "WayBillId": 0,
-        //     "Comment": "",
-        //     "Details": [
-        //         {
-        //             "Id": 0,
-        //             "ProductId": "1022",
-        //             "ProductName": "ჰელიუმის ბუშტი სადა N1",
-        //             "Quantity": 1,
-        //             "Price": 2,
-        //             "Total": 2
-        //         }
-        //     ]
-        // }
         const products = get().products
         get().productsByAmount.forEach((pr) => {
             const product = products.find(product => product.ProdCode == pr.id)
             if(product){
-                body.Details.push({
+                saveOrderBody.Details.push({
                     Id: 0,
                     ProductId: pr.id,
                     ProductName: product.ProductName,
@@ -194,7 +125,34 @@ const useCartStore = create<Store>((set, get) => ({
             }
         })
 
-        axiosOperationInstance.post(endpoints.SaveOrder, body)
+        try{
+            const resp = await axiosOperationInstance.post(endpoints.SaveOrder, saveOrderBody)
+            const obj = resp.data.data[0]
+            const total = get().getTotalPrice()
+            console.log(total)
+
+            const payOrderModel = {
+                "PaymentId": 0,
+                "Date": new Date().toISOString(),
+                "PaymentNumber": "",
+                "InvoiceNumber": "",
+                "ClientId": cliendId,
+                "CashDrawerId": saalroId,
+                "PaymentTypeId": 0,
+                "PurchaseType": "",
+                "StoreId": storeCode,
+                "Amount": total.price,
+                "Comment": ""
+              }
+
+    
+                const data = await axiosOperationInstance.post(endpoints.PayOrders, {
+                    orderID: obj.OrderId,
+                    model: payOrderModel
+                })
+        } catch (err) {
+            console.log(err)
+        }
     },
 
     resetStates: () => set(initialState)
