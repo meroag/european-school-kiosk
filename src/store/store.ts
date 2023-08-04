@@ -76,8 +76,13 @@ const useStore  = create<Store>((set) => ({
 
     getProdGroup: async () => {
         try{
-            const res = await axiosInstance.get(endpoints.GetProdGroup)
-            set((state) => ({...state, categories: res.data.ProdGroups.filter((prod:ProdGroup) => prod.IdProdGroup == 281)}))
+            const res = await axiosInstance.get(endpoints.GetProdGroup, {
+                params: {
+                    showInToch: true
+                }
+            })
+            console.log(res)
+            set((state) => ({...state, categories: res.data.ProdGroups}))
         }
         catch (error){
             console.log(error)

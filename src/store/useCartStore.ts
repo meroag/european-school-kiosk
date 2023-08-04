@@ -22,6 +22,12 @@ interface Store {
     decreaseProductAmount: (id: number | string) => void
     deleteProductFromCart: (id: number | string) => void
     finalizeOrder: () => void
+    getTotalPrice: () =>  {
+        products: number,
+        calories: number,
+        price: number
+    }
+
     resetStates: () => void
 }
 
@@ -146,9 +152,10 @@ const useCartStore = create<Store>((set, get) => ({
               }
 
     
-                const data = await axiosOperationInstance.post(endpoints.PayOrders, {
-                    orderID: obj.OrderId,
-                    model: payOrderModel
+                const data = await axiosOperationInstance.post(endpoints.PayOrders, payOrderModel, {
+                    params: {
+                        orderID: obj.OrderId
+                    }
                 })
         } catch (err) {
             console.log(err)
