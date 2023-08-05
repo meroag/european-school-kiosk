@@ -1,9 +1,8 @@
 import { create } from "zustand";
 import { Product } from "../interfaces";
-import { axiosInstance, axiosOperationInstance, endpoints } from "../utils/api";
+import { axiosOperationInstance, endpoints } from "../utils/api";
 import useSettingStore from "./useSettings";
 import useStore from "./store";
-import useCartTotal from "../hooks/useCartTotal";
 
 interface Store {
     productsByAmount: {
@@ -85,15 +84,6 @@ const useCartStore = create<Store>((set, get) => ({
     },
 
     finalizeOrder: async () => {
-        interface finalizeOrderBodyDetail {
-            "Id": number,
-            "ProductId": string | number,
-            "ProductName": string,
-            "Quantity": number,
-            "Price": number,
-            "Total": number
-        }
-
         const storeCode = useSettingStore.getState().selectedStoreId 
         const saalroId = useSettingStore.getState().selectedSalaroId 
         const driverCode = useSettingStore.getState().selectedDriver 
@@ -152,7 +142,7 @@ const useCartStore = create<Store>((set, get) => ({
               }
 
     
-                const data = await axiosOperationInstance.post(endpoints.PayOrders, payOrderModel, {
+                await axiosOperationInstance.post(endpoints.PayOrders, payOrderModel, {
                     params: {
                         orderID: obj.OrderId
                     }

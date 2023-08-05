@@ -1,11 +1,10 @@
-import { useState, MouseEvent, useEffect } from "react"
+import { MouseEvent } from "react"
 import Counter from "./Counter"
 import styles from "./card.module.scss"
 import ProductDescription from "./ProductDescription"
 import NotInStock from "./NotInStock"
 import { Product } from "../../interfaces"
 import useCartStore from "../../store/useCartStore"
-import { axiosInstance, endpoints } from "../../utils/api"
 import { useTranslation } from "react-i18next"
 
 interface ProductCardProps {

@@ -1,5 +1,4 @@
 import styles from "./sidebar.module.scss"
-import categoryList from "./categoriesList"
 import SvgIcon from "../../../vendor/svgr/SvgIcon"
 import { useEffect } from "react"
 import useStore from "../../../store/store"

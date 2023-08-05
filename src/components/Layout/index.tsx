@@ -1,7 +1,5 @@
-import SvgIcon from '../../vendor/svgr/SvgIcon'
 import Cart from '../Cart'
 import Header from '../Header'
-import Modal from '../Modal'
 import styles from "./layout.module.scss"
 
 interface LayoutProps {
