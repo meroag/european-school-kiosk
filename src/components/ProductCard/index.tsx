@@ -47,7 +47,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
         e.stopPropagation()
     }
     
-    const productImage = `https://api.mark4.ge:8520/api/GetProductPicture?ProdCode=${product.ProdCode}`
+    const productImage = `https://fmg.mark4.ge/api/GetProductPicture?ProdCode=${product.ProdCode}`
   return (
     <div className={`${styles.productCardWrapper} ${className}`}>
         <div className={styles.imageWrapper} 
