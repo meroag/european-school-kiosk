@@ -15,7 +15,7 @@ export const endpoints = {
 }
 
 
-const url = `https://fmg.mark4.ge/api/`;
+const url = `http://app.mark4.ge:8520/api/`;
 
 const axiosAutorization = axios.create({
   baseURL: url,
@@ -34,7 +34,7 @@ const axiosInstance = axios.create({
 });
 
 const axiosOperationInstance = axios.create({
-  baseURL: "https://fmg.mark4.ge/",
+  baseURL: "http://app.mark4.ge:8520/",
   headers: {
     'Accept': 'application/json',
     "Accept-Encoding": "gzip, deflate",
