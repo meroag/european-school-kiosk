@@ -6,7 +6,6 @@ import SvgIcon from "../../vendor/svgr/SvgIcon"
 import PincodeModal from "./PincodeModal"
 import SettingsModal from "./SettingsModal"
 import useSettingStore from "../../store/useSettings"
-import { useEffect } from "react"
 
 interface LanguageItemProps {
   onClick: () => void, 
