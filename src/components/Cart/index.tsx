@@ -63,7 +63,7 @@ const Cart = () => {
     }
 
     return (
-        <div className={styles.wrapper}>
+        <div className={`${styles.wrapper} ${isOrderSummayPage && styles.onOrerPage}`}>
         <CartHeader />
         {isOrderSummayPage ? <>
             <div className={styles.footer}>

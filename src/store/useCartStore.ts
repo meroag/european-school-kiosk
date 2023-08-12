@@ -125,7 +125,6 @@ const useCartStore = create<Store>((set, get) => ({
             const resp = await axiosOperationInstance.post(endpoints.SaveOrder, saveOrderBody)
             const obj = resp.data.data[0]
             const total = get().getTotalPrice()
-            console.log(total)
 
             const payOrderModel = {
                 "PaymentId": 0,
