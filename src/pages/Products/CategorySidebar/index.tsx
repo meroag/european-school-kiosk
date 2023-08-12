@@ -12,14 +12,12 @@ const CategorySidebar = () => {
   const setSelectedCategoryId = useStore((state) => state.setSelectedCategoryId)
   const getProdGroup = useStore((state) => state.getProdGroup)
 
-  console.log(selectedCategoryId)
   useEffect(() => {
     getProdGroup()
   }, [])
 
   return (
     <div className={styles.wrapper}>
-      
       {categories.map((category) => (
         <button key={category.IdProdGroup} className={`${styles.categoryItemWrapper} ${category.IdProdGroup == selectedCategoryId ? styles.categoryItemWrapperActive : ""}`} onClick={() => setSelectedCategoryId(category.IdProdGroup)}>
             <SvgIcon iconName={"Food"} />

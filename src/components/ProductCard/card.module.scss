@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     gap: 0.625rem;   
+    animation: fadeUp 0.4s forwards;
 }
 
 :global {
