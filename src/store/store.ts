@@ -81,7 +81,6 @@ const useStore  = create<Store>((set) => ({
                     showInToch: true
                 }
             })
-            console.log(res)
             set((state) => ({...state, categories: res.data.ProdGroups}))
         }
         catch (error){

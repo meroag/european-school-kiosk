@@ -30,7 +30,6 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
             addProductInCart(product)
         }
 
-        console.log(e)
         e.preventDefault()
     }
 
