@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react"
+import { MouseEvent } from "react"
 import Counter from "./Counter"
 import styles from "./card.module.scss"
 import ProductDescription from "./ProductDescription"
