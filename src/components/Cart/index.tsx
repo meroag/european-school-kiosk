@@ -12,7 +12,8 @@ import useCartTotal from "../../hooks/useCartTotal";
 
 const CartHeader = () => {
     const { t } = useTranslation()
-    const total = useCartTotal()
+    // const total = useCartTotal()
+    const total = useCartStore(state => state.getTotalPrice())
     
     return (
         <div className={styles.header}>
@@ -29,7 +30,7 @@ const CartHeader = () => {
             </ul>
             <div className={styles.totalPrice}>
                 {t("Total Price")}:
-                <span>{total.price}₾</span>
+                <span>{total.price.toFixed(2)}₾</span>
             </div>
         </div>
     )

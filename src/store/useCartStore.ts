@@ -71,10 +71,12 @@ const useCartStore = create<Store>((set, get) => ({
           const productPrice = products.find(p => p.ProdCode == pr.id)?.Fasi1 || 0
           const productCal = Number(products.find(p => p.ProdCode == pr.id)?.Description2) || 0
       
+          const newPrice = state.price + ((productPrice * 100) * pr.amount) / 100
+            
           return {
             products: state.products + pr.amount,
             calories: state.calories + productCal * pr.amount,
-            price: state.price + productPrice * pr.amount
+            price: newPrice
           }
         }, {
           price: 0,
