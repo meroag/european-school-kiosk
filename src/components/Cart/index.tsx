@@ -8,11 +8,9 @@ import 'swiper/css/free-mode';
 import "./cart.scss"
 import { FreeMode } from 'swiper/modules';
 import useCartStore from "../../store/useCartStore";
-import useCartTotal from "../../hooks/useCartTotal";
 
 const CartHeader = () => {
     const { t } = useTranslation()
-    // const total = useCartTotal()
     const total = useCartStore(state => state.getTotalPrice())
     
     return (
