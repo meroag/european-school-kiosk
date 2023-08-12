@@ -8,9 +8,11 @@ const CategorySidebar = () => {
   const { i18n } = useTranslation()
   const categories = useStore((state) => state.categories)
 
+  const selectedCategoryId = useStore((state) => state.selectedCategoryId)
   const setSelectedCategoryId = useStore((state) => state.setSelectedCategoryId)
   const getProdGroup = useStore((state) => state.getProdGroup)
 
+  console.log(selectedCategoryId)
   useEffect(() => {
     getProdGroup()
   }, [])
@@ -19,7 +21,7 @@ const CategorySidebar = () => {
     <div className={styles.wrapper}>
       
       {categories.map((category) => (
-        <button key={category.IdProdGroup} className={styles.categoryItemWrapper} onClick={() => setSelectedCategoryId(category.IdProdGroup)}>
+        <button key={category.IdProdGroup} className={`${styles.categoryItemWrapper} ${category.IdProdGroup == selectedCategoryId ? styles.categoryItemWrapperActive : ""}`} onClick={() => setSelectedCategoryId(category.IdProdGroup)}>
             <SvgIcon iconName={"Food"} />
             <h2>{i18n.language == "ka" ? category.ProdGroupName : category.ProdGroupENG }</h2>
         </button>
