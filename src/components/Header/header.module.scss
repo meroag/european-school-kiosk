@@ -1,3 +1,12 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .headerWrapper{
     display: flex;
     align-items: center;
@@ -5,12 +14,23 @@
     padding: 1.25rem 0 2.5rem;
 }
 
+.goBackBtn {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    color: #1C1952;
+    font-size: 1.125rem;
+    font-weight: 600;
+    animation: fadeIn 0.5s forwards ;
+    cursor: pointer;
+}
+
 .logo{
     display: flex;
     align-items: center;
     gap: 1.875rem;
     img{
-            width: 5rem;
+        width: 5rem;
     } 
     h1{
         color: #000;

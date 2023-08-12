@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import styles from "./home.module.scss"
 import { useTranslation } from "react-i18next"
 import SvgIcon from "../../vendor/svgr/SvgIcon"
@@ -6,6 +7,33 @@ import PincodeModal from "./PincodeModal"
 import SettingsModal from "./SettingsModal"
 import useSettingStore from "../../store/useSettings"
 import { useEffect } from "react"
+
+interface LanguageItemProps {
+  onClick: () => void, 
+  img : string 
+  title: string 
+  alt: string
+}
+
+const LanguageItem = ({onClick, img, title, alt}: LanguageItemProps) => {
+  const navigate = useNavigate()
+  const [isClicked, setIsClicked] = useState(false)
+
+  const onLinkItemCLick = () => {
+    setIsClicked(true)
+    setTimeout(() => {
+      onClick && onClick()
+      navigate("/products")
+    }, 300)
+  }
+
+  return (
+    <a onClick={onLinkItemCLick} className={isClicked ? "onItemClick" : ""}>
+      <img src={img} alt={alt} />
+      <span>{title}</span>
+    </a>
+  )
+}
 
 const Home = () => {
   const isPincodModalOpen = useSettingStore(store => store.isPincodModalOpen)
@@ -33,14 +61,18 @@ const Home = () => {
         <h2>აირჩიეთ ენა</h2>
         <h2>Choose language</h2>
         <nav>
-          <Link to={'/products'} onClick={() => i18n.changeLanguage("en")}>
-            <img src="/flags/british-lg.png" alt="british flag" />
-            <span>English</span>
-          </Link>
-          <Link to={'/products'} onClick={() => i18n.changeLanguage("ka")}>
-            <img src="/flags/georgian-lg.png" alt="georgian flag" />
-            <span>ქართული</span>
-          </Link>
+          <LanguageItem 
+            onClick={() => i18n.changeLanguage("ka")}
+            img={"/flags/georgian-lg.png"}
+            alt={"georgian flag"}
+            title={"ქართული"}
+          />
+          <LanguageItem 
+            onClick={() => i18n.changeLanguage("en")}
+            img={"/flags/british-lg.png"}
+            alt={"british flag"}
+            title={"English"}
+          />
         </nav>
       </div>
 

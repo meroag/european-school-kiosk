@@ -62,45 +62,40 @@ const Cart = () => {
         finalizeOrder()
     }
 
-    if(isOrderSummayPage){
-        return (
-            <div className={styles.wrapper}>
-            <CartHeader />
+    return (
+        <div className={styles.wrapper}>
+        <CartHeader />
+        {isOrderSummayPage ? <>
             <div className={styles.footer}>
                 <button className={styles.cancelOrderBtn} onClick={onGoBackClick}>{t("GO BACK")}</button>
                 <button className={styles.placeOrderBtn} onClick={onFinalizeOrder}>{t("FINALIZE ORDER")}</button>
             </div>
+        </> : <>
+            <div className={styles.products} >
+            <Swiper
+                slidesPerView={"auto"}
+                spaceBetween={80}
+                freeMode={true}
+                pagination={{
+                clickable: true,
+                }}
+                modules={[FreeMode]}
+                className="mySwiper"
+            >
+                {products.map((product) => (
+                    <SwiperSlide key={product.ProdCode}>
+                        <ProductCard className={styles.productCard} withRightControl={true} product={product} />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+            </div>
+            <div className={styles.footer}>
+                <button className={styles.cancelOrderBtn} onClick={onCancelOrder}>{t("CANCEL ORDER")}</button>
+                <button className={styles.placeOrderBtn} disabled={products.length == 0} onClick={onOrderClick}>{t("ORDER")}</button>
+            </div>
+        </>}
         </div>
-        )
-    }else{
-        return (
-          <div className={styles.wrapper}>
-              <CartHeader />
-              <div className={styles.products} >
-                <Swiper
-                    slidesPerView={"auto"}
-                    spaceBetween={80}
-                    freeMode={true}
-                    pagination={{
-                    clickable: true,
-                    }}
-                    modules={[FreeMode]}
-                    className="mySwiper"
-                >
-                    {products.map((product) => (
-                        <SwiperSlide key={product.ProdCode}>
-                            <ProductCard className={styles.productCard} withRightControl={true} product={product} />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-              </div>
-              <div className={styles.footer}>
-                  <button className={styles.cancelOrderBtn} onClick={onCancelOrder}>{t("CANCEL ORDER")}</button>
-                  <button className={styles.placeOrderBtn} disabled={products.length == 0} onClick={onOrderClick}>{t("ORDER")}</button>
-              </div>
-          </div>
-        )
-    }
+    )
 }
 
 export default Cart

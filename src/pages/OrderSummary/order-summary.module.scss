@@ -1,3 +1,23 @@
+@keyframes zoomIn {
+    0% {
+        scale: 0.5;
+    }
+    100% {
+        scale: 1;
+    }
+}
+
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translate(0, 2rem);
+    }
+    100% {
+        transform: translate(0, 0rem);
+        opacity: 1;
+    }
+}
+
 .wrapper{
     display: flex;
     flex-direction: column;
@@ -11,11 +31,13 @@
     gap: 1.875rem;
     img{
         width: 15.625rem;
+        animation: zoomIn 0.4s forwards;
     }
     h1{
         color: #000;
         font-size: 3rem;
         font-weight: 600;
+        animation: fadeUp 0.4s forwards;
     }
 }
 
@@ -23,6 +45,7 @@
     display: flex;
     flex-direction: column;
     gap: 2.75rem;
+    padding-bottom: 10rem;
     h2{
         color: #000;
         font-size: 1.5rem;
