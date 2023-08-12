@@ -18,8 +18,13 @@ interface LanguageItemProps {
 const LanguageItem = ({onClick, img, title, alt}: LanguageItemProps) => {
   const navigate = useNavigate()
   const [isClicked, setIsClicked] = useState(false)
+  const storeCode = useSettingStore(state => state.selectedStoreId) 
+  const salaroId = useSettingStore(state => state.selectedSalaroId) 
+
 
   const onLinkItemCLick = () => {
+    if(!storeCode || !salaroId) return alert("Something went wrong")
+  
     setIsClicked(true)
     setTimeout(() => {
       onClick && onClick()

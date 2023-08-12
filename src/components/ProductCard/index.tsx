@@ -6,6 +6,8 @@ import NotInStock from "./NotInStock"
 import { Product } from "../../interfaces"
 import useCartStore from "../../store/useCartStore"
 import { useTranslation } from "react-i18next"
+import useStore from "../../store/store"
+import useSettingStore from "../../store/useSettings"
 
 interface ProductCardProps {
     product: Product; 
@@ -14,9 +16,17 @@ interface ProductCardProps {
 }
 const ProductCard = ({product,className, withRightControl}:ProductCardProps) => {
     const { i18n } = useTranslation()
-
-    const isInStock = false
     
+    
+    const productsNashti = useStore(state => state.productsNashti)
+    const storeCode = useSettingStore(state => state.selectedStoreId)
+
+    const isInStock = productsNashti
+    .find(store => store.StoreCode == storeCode?.toString() )
+    ?.ProdNashtebi.some(pr => pr.ProdCode == product.ProdCode)
+    
+    console.log(isInStock)
+
     const productAmount = useCartStore(state => state.getProductAmount(product.ProdCode))
     const addProductInCart = useCartStore(state => state.addProductInCart)
     const increaseProductAmount = useCartStore(state => state.increaseProductAmount)
@@ -65,7 +75,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
                 onCancelHandle={onCancelHandle} 
             />}
             {!withRightControl && <ProductDescription product={product} />}
-            {isInStock && <NotInStock />}
+            {!isInStock && <NotInStock />}
         </div>
         <div className={styles.contentWrapper}>
             <h3>{i18n.language == "en" ? product.ProductNameENG : product.ProductName}</h3>

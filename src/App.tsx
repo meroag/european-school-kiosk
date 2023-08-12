@@ -11,6 +11,7 @@ import useStore from "./store/store";
 import FollowInstructions from "./pages/FollowInstructions";
 import PaymentSuccessful from "./pages/PaymentSuccessful";
 import PaymentDeclined from "./pages/PaymentDeclined";
+import useSettingStore from "./store/useSettings";
 
 const router = createBrowserRouter([
   {
@@ -43,16 +44,17 @@ function App() {
   const autorization = useStore(state => state.autorization)
   const isAutorized = useStore(state => state.isAutorized)
   const getProdNashti = useStore(state => state.getProdNashti)
+  const storeCode = useSettingStore(state => state.selectedStoreId)
 
   useEffect(() => {
     autorization()
   }, [])  
 
   useEffect(() => {
-    if(isAutorized){
+    if(isAutorized && storeCode){
       getProdNashti()
     }
-  }, [isAutorized])
+  }, [isAutorized, storeCode])
 
   return (
     <RouterProvider router={router} />

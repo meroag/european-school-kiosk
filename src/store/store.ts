@@ -2,6 +2,7 @@
 import create from "zustand"
 import { axiosAutorization, axiosInstance, endpoints } from "../utils/api"
 import { ProdGroup, Product, ProductsNashti } from "../interfaces"
+import useSettingStore from "./useSettings"
 
 interface Store {
     user: {
@@ -65,8 +66,13 @@ const useStore  = create<Store>((set) => ({
     },
 
     getProdNashti: async () => {
+        const storeCode = useSettingStore.getState().selectedStoreId
         try{
-            const res = await axiosInstance.get(endpoints.GetProdNashti)
+            const res = await axiosInstance.get(endpoints.GetProdNashti, {
+                params: {
+                    StoreCode: storeCode 
+                }
+            })
             set((state) => ({...state, productsNashti: res.data.StoreProdNashtebi}))
         }
         catch (error){

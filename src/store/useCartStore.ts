@@ -87,11 +87,11 @@ const useCartStore = create<Store>((set, get) => ({
 
     finalizeOrder: async () => {
         const storeCode = useSettingStore.getState().selectedStoreId 
-        const saalroId = useSettingStore.getState().selectedSalaroId 
+        const salaroId = useSettingStore.getState().selectedSalaroId 
         const driverCode = useSettingStore.getState().selectedDriver 
         const cliendId = useStore.getState()?.user?.ClientId
 
-        if(!storeCode || !driverCode) return alert("Sometging went wrong")
+        if(!storeCode || !salaroId) return alert("Something went wrong")
         
         const saveOrderBody: any = {
             "OrderId": 0,
@@ -134,7 +134,7 @@ const useCartStore = create<Store>((set, get) => ({
                 "PaymentNumber": "",
                 "InvoiceNumber": "",
                 "ClientId": cliendId,
-                "CashDrawerId": saalroId,
+                "CashDrawerId": salaroId,
                 "PaymentTypeId": 0,
                 "PurchaseType": "",
                 "StoreId": storeCode,
