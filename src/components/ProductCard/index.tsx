@@ -1,4 +1,4 @@
-import { MouseEvent } from "react"
+import { MouseEvent, useState } from "react"
 import Counter from "./Counter"
 import styles from "./card.module.scss"
 import ProductDescription from "./ProductDescription"
@@ -14,6 +14,7 @@ interface ProductCardProps {
 }
 const ProductCard = ({product,className, withRightControl}:ProductCardProps) => {
     const { i18n } = useTranslation()
+
     const isInStock = false
     
     const productAmount = useCartStore(state => state.getProductAmount(product.ProdCode))
@@ -29,6 +30,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
             addProductInCart(product)
         }
 
+        console.log(e)
         e.preventDefault()
     }
 
@@ -48,9 +50,10 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
     }
     
     const productImage = `https://fmg.mark4.ge/api/GetProductPicture?ProdCode=${product.ProdCode}`
+    
   return (
     <div className={`${styles.productCardWrapper} ${className}`}>
-        <div className={styles.imageWrapper} 
+        <div className={`${styles.imageWrapper} ${productAmount && 'onClick'} `} 
             onClick={onImageWrapperClick}
         >
             <img src={productImage || "/images/product.png"} alt="" />

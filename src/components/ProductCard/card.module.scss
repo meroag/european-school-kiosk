@@ -5,6 +5,64 @@
     gap: 0.625rem;   
 }
 
+:global {
+    .onClick {
+        & :local {
+            animation: onClick forwards 0.4s;
+        }
+    }
+}
+
+@keyframes onClick {
+    0% {
+        scale: 1;
+    }
+    50%{
+        scale: 0.8;
+    }
+    100% {
+        scale: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translate(0, 2rem);
+    }
+    100% {
+        transform: translate(0, 0rem);
+        opacity: 1;
+    }
+}
+
+@keyframes showLeft {
+    from {
+        transform: translate(-2.5rem, 0);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes showRight {
+    from {
+        transform: translate(2.5rem, 0);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
+
 .imageWrapper{
     width: 100%;
     aspect-ratio: 1;
@@ -56,7 +114,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 2rem;
     opacity: 0;
     transition: 0.2s;
     button{
@@ -70,7 +128,19 @@
 }
 
 .itemCounterVisible{
-    opacity: 1;
+    animation: fadeIn forwards 0.2s 0.2s ;
+    .itemAmount{
+        animation: fadeUp forwards 0.2s 0.2s ;
+    }
+    .plusButton{
+        animation: showRight forwards 0.2s 0.25s;
+    }
+    .minusButton{
+        animation: showLeft forwards 0.2s 0.25s;
+    }
+    .cancelButton{
+        animation: showLeft forwards 0.2s 0.25s;
+    }
 }
 
 .itemAmount{
@@ -81,8 +151,8 @@
 
 .minusButton{
     svg{
-        width: 30px;
-        height: 30px;
+        width: 2.5rem;
+        height: 2.5rem;
     }   
     path{
         fill: #fff
@@ -91,15 +161,15 @@
 
 .cancelButton{
     svg{
-        width: 43px;
-        height: 43px;
+        width: 3.5rem;
+        height: 3.5rem;
     }
 }
 
 .plusButton{
     svg{
-        width: 30px;
-        height: 30px;
+        width: 2.5rem;
+        height: 2.5rem;
     }
 }
 
