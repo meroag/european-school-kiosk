@@ -15,16 +15,13 @@ const ProductDescription = ({product}: {product: Product }) => {
 
   return (
     <>
-        {isProductDescriptionVisible 
-        ? (
-            <button className={styles.closeButton} onClick={infoButtonHandle}>
-                <SvgIcon iconName="close" />
-            </button>
-        ) : (
-            <button className={styles.infoButton} onClick={infoButtonHandle}>
-                <SvgIcon iconName="info" /> 
-            </button>
-        )}
+        <button className={`${styles.closeButton} ${isProductDescriptionVisible && styles.closeButtonActive}`} onClick={infoButtonHandle}>
+            <SvgIcon iconName="close" />
+        </button>
+       
+        <button className={`${styles.infoButton} ${isProductDescriptionVisible && styles.infoButtonInactive}`} onClick={infoButtonHandle}>
+            <SvgIcon iconName="info" /> 
+        </button>
 
         {isProductDescriptionVisible && <div className={styles.productDescriptionWrapper}>
             <div className={styles.productDescriptionGroup}>

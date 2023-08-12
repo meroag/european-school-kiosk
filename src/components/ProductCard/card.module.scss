@@ -45,6 +45,17 @@
     }
 }
 
+@keyframes showCloseButton{
+    0% {
+        rotate: -90deg;
+        opacity: 1;
+    }
+    100% {
+        rotate: -0;
+        opacity: 1;
+    }
+}
+
 @keyframes showLeft {
     from {
         transform: translate(-2.5rem, 0);
@@ -83,6 +94,18 @@
     background-color: transparent;
     border: none;
     z-index: 3;
+    svg{
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
+.infoButtonInactive{
+    opacity: 0;
+}
+
+.closeButtonActive{
+    animation: showCloseButton forwards 0.2s;
 }
 
 .contentWrapper{
@@ -214,12 +237,14 @@
     flex-direction: column;
     gap: 1.875rem;
     z-index: 1;
+    animation: fadeIn forwards 0.2s;
 }
 
 .productDescriptionGroup{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    animation: fadeUp forwards 0.2s;
     h4{
         color: #FFF;
         font-size: 1.125rem;
