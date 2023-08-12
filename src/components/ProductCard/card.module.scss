@@ -251,6 +251,9 @@
 }
 
 .plusButton{
+    &:disabled{
+        opacity: 0.4;
+    }
     svg{
         width: 2.5rem;
         height: 2.5rem;
@@ -335,3 +338,5 @@
         font-weight: 500;
     }
 }
+
+

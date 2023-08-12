@@ -45,6 +45,7 @@ function App() {
   const isAutorized = useStore(state => state.isAutorized)
   const getProdNashti = useStore(state => state.getProdNashti)
   const storeCode = useSettingStore(state => state.selectedStoreId)
+  const getMdzgoli = useSettingStore(store => store.getMdzgoli)
 
   useEffect(() => {
     autorization()
@@ -55,6 +56,10 @@ function App() {
       getProdNashti()
     }
   }, [isAutorized, storeCode])
+
+  useEffect(() => {
+    getMdzgoli()
+  }, [isAutorized, getMdzgoli])
 
   return (
     <RouterProvider router={router} />

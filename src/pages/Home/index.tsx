@@ -44,13 +44,9 @@ const Home = () => {
   const isPincodModalOpen = useSettingStore(store => store.isPincodModalOpen)
   const setIsPincodModalOpen = useSettingStore(store => store.setIsPincodModalOpen)
   const isSettingsModalOpen = useSettingStore(store => store.isSettingsModalOpen)
-  const getMdzgoli = useSettingStore(store => store.getMdzgoli)
   
   const { t, i18n } = useTranslation()
 
-  useEffect(() => {
-    getMdzgoli()
-  }, [getMdzgoli])
   return (
     <div className={styles.wrapper}>
 

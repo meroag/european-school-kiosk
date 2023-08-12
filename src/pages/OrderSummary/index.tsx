@@ -9,6 +9,7 @@ const OrderSummary = () => {
     const products = useCartStore(state => state.products)
 
   return (
+    <>
     <Layout>
         <div className={styles.wrapper}>
             <div className={styles.logo}>
@@ -25,6 +26,7 @@ const OrderSummary = () => {
             </div>
         </div>
     </Layout>
+    </>
   )
 }
 

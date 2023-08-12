@@ -21,11 +21,9 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
     const productsNashti = useStore(state => state.productsNashti)
     const storeCode = useSettingStore(state => state.selectedStoreId)
 
-    const isInStock = productsNashti
+    const productNashti = productsNashti
     .find(store => store.StoreCode == storeCode?.toString() )
-    ?.ProdNashtebi.some(pr => pr.ProdCode == product.ProdCode)
-    
-    console.log(isInStock)
+    ?.ProdNashtebi.find(pr => pr.ProdCode == product.ProdCode)?.Nashti || 0
 
     const productAmount = useCartStore(state => state.getProductAmount(product.ProdCode))
     const addProductInCart = useCartStore(state => state.addProductInCart)
@@ -68,6 +66,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
             <img src={productImage || "/images/product.png"} alt="" />
             {productAmount && <Counter 
                 amount={productAmount.amount}
+                maxAmount={productNashti}
                 visible={true}
                 withRightControl={withRightControl} 
                 onPlusHandle={onPlusHandle} 
@@ -75,7 +74,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
                 onCancelHandle={onCancelHandle} 
             />}
             {!withRightControl && <ProductDescription product={product} />}
-            {!isInStock && <NotInStock />}
+            {productNashti == 0 && <NotInStock />}
         </div>
         <div className={styles.contentWrapper}>
             <h3>{i18n.language == "en" ? product.ProductNameENG : product.ProductName}</h3>

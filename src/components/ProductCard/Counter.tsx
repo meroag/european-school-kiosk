@@ -6,13 +6,14 @@ interface CounterProps {
     amount: number;
     visible?: boolean;
     withRightControl?: boolean;
+    maxAmount: number
 
     onPlusHandle: (e: MouseEvent<HTMLButtonElement>) => void;
     onMinusHandle: (e: MouseEvent<HTMLButtonElement>) => void;
     onCancelHandle: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Counter = ({amount, visible, withRightControl, onPlusHandle, onMinusHandle, onCancelHandle}: CounterProps) => {
+const Counter = ({amount,maxAmount, visible, withRightControl, onPlusHandle, onMinusHandle, onCancelHandle}: CounterProps) => {
     const [prevAmount, setPrevAmount] = useState(0)
     const [itemAmountClass, setItemAmountClass] = useState("")
 
@@ -50,7 +51,7 @@ const Counter = ({amount, visible, withRightControl, onPlusHandle, onMinusHandle
         </div> : <div className={`${styles.itemAmount}`}>
             {amount}
         </div>}
-        <button className={styles.plusButton} onClick={onPluesBtn}>
+        <button className={styles.plusButton} onClick={onPluesBtn} disabled={amount >= maxAmount}>
             <SvgIcon iconName="plus" />
         </button>
     </div>
