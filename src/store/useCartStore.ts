@@ -26,7 +26,7 @@ interface Store {
     payOrders: (orderId: number) => void
 
     finalizeOrder: () => void
-    sale: () => void
+    sale: (ip: string, id: string, amount: number) => void
     getTotalPrice: () =>  {
         products: number,
         calories: number,
@@ -156,7 +156,7 @@ const useCartStore = create<Store>((set, get) => ({
                 "PaymentTypeId": 0,
                 "PurchaseType": "",
                 "StoreId": storeCode,
-                "Amount": total.price,
+                "Amount": parseFloat( total.price.toFixed(2) ),
                 "Comment": ""
               }
 
@@ -212,22 +212,21 @@ const useCartStore = create<Store>((set, get) => ({
         return orderId
     },
 
-    sale: async () => {
-        const url = "http://192.168.0.14:9015/"
-
-        const terminalId = "SH042017"
-        const amoubt = "010"
+    sale: async (ip, id, amount) => {
+        // @ts-ignore: Unreachable code error
+        let price = amount < 1 ? amount.toFixed(2).replace(".", "") : amount.toFixed(2) * 100
+    
         const xmlBody = `<?xml version="1.0" encoding="UTF-8"?>
         <request>
-            <field id="00">${amoubt}</field>
+            <field id="00">${price}</field>
             <field id="04">981</field>
             <field id="21">20150729121815</field>
             <field id="25">1</field>
             <field id="26"> </field>
-            <field id="27">${terminalId}</field>
+            <field id="27">${id}</field>
         </request>`;
         
-        return fetch(url, {
+        return fetch(ip, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/xml'

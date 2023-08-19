@@ -6,10 +6,15 @@ import useCartStore from '../../store/useCartStore';
 const FollowInstructions = () => {
   const navigate = useNavigate();
   const sale = useCartStore(state => state.sale)
+  const total = useCartStore(state => state.getTotalPrice())
 
   const saleProduct = async () => {
     try {
-      const resp = await sale()
+      const resp = await sale(
+        "http://192.168.0.14:9015/",
+        "SH042017",
+        total.price
+      )
       console.log(resp)
     } catch (err) {
       alert(err)
