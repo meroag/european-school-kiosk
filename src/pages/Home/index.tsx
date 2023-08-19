@@ -7,6 +7,7 @@ import PincodeModal from "./PincodeModal"
 import SettingsModal from "./SettingsModal"
 import useSettingStore from "../../store/useSettings"
 import useStore from "../../store/store"
+import useCartStore from "../../store/useCartStore"
 
 interface LanguageItemProps {
   onClick: () => void, 
@@ -47,14 +48,16 @@ const Home = () => {
   
   const isAutorized = useStore(state => state.isAutorized)
   const getProdNashti = useStore(state => state.getProdNashti)
-  const resetStates = useStore(state => state.resetStates)
+  const resetStoreStates = useStore(state => state.resetStates)
+  const resetCartStates = useCartStore(state => state.resetStates)
   const autorization = useStore(state => state.autorization)
   const storeCode = useSettingStore(state => state.selectedStoreId)
   
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
-    resetStates()
+    resetStoreStates()
+    resetCartStates()
     autorization()
   }, [])
 
