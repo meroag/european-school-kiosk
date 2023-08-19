@@ -32,7 +32,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
     const deleteProductFromCart = useCartStore(state => state.deleteProductFromCart)
 
     const onImageWrapperClick = (e: MouseEvent<HTMLDivElement>) => {
-        if(withRightControl) return;
+        if(withRightControl || productNashti == 0) return;
 
         if(!productAmount){
             addProductInCart(product)

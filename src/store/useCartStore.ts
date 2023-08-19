@@ -26,6 +26,7 @@ interface Store {
     payOrders: (orderId: number) => void
 
     finalizeOrder: () => void
+    sale: () => void
     getTotalPrice: () =>  {
         products: number,
         calories: number,
@@ -207,14 +208,42 @@ const useCartStore = create<Store>((set, get) => ({
         })
 
         const resp = await axiosOperationInstance.post(endpoints.SaveOrder, saveOrderBody)
-        console.log(resp)
         const orderId = resp.data.data[0]["OrderId"]
         return orderId
     },
 
+    sale: async () => {
+        const url = "http://192.168.0.14:9015/"
+
+        const terminalId = "SH042017"
+        const amoubt = "010"
+        const xmlBody = `<?xml version="1.0" encoding="UTF-8"?>
+        <request>
+            <field id="00">${amoubt}</field>
+            <field id="04">981</field>
+            <field id="21">20150729121815</field>
+            <field id="25">1</field>
+            <field id="26"> </field>
+            <field id="27">${terminalId}</field>
+        </request>`;
+        
+        return fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/xml'
+          },
+          body: xmlBody
+        })
+    },
+
     finalizeOrder: async () => {
-        const orderId = await get().saveOrder()
-        get().payOrders(orderId)
+        try {
+            const orderId = await get().saveOrder()
+            get().payOrders(orderId)
+        } catch (err) {
+            console.log(err)
+        }
+
     },
 
     resetStates: () => set(initialState)

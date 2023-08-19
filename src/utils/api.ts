@@ -24,6 +24,7 @@ const axiosAutorization = axios.create({
   },
 });
 
+// axios instance
 const axiosInstance = axios.create({
     baseURL: url,
     headers: {
@@ -31,15 +32,6 @@ const axiosInstance = axios.create({
       "Accept-Encoding": "gzip, deflate",
       "Accept-Language": "en-US,en;q=0.9",
     },
-});
-
-const axiosOperationInstance = axios.create({
-  baseURL: "https://fmg.mark4.ge/",
-  headers: {
-    'Accept': 'application/json',
-    "Accept-Encoding": "gzip, deflate",
-    "Accept-Language": "en-US,en;q=0.9",
-  },
 });
 
 axiosInstance.interceptors.request.use(
@@ -52,6 +44,26 @@ axiosInstance.interceptors.request.use(
     },
     (err) => Promise.reject(err),
 );
+
+axiosInstance.interceptors.response.use(
+  (resp) => {
+    if(resp.data.ErrorMessage && resp.data.ErrorMessage.ErrorCode == -300){
+      window.location.pathname = "/"
+    }
+    return resp;
+  },
+  (err) => Promise.reject(err),
+);
+
+// axios operation
+const axiosOperationInstance = axios.create({
+  baseURL: "https://fmg.mark4.ge/",
+  headers: {
+    'Accept': 'application/json',
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "en-US,en;q=0.9",
+  },
+});
 
 axiosOperationInstance.interceptors.request.use(
   (config) => {

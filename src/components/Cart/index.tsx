@@ -67,7 +67,12 @@ const Cart = () => {
     const onFinalizeOrder = async () => {
         const checkedProducts = await checkCartProducts()
         if(checkedProducts.status){
-            finalizeOrder()
+            try {
+                await finalizeOrder()
+                navigate("/follow-instructions")
+            } catch (err) {
+                console.log(err)
+            }
         }else if(checkedProducts.product != null){
             setOutOfStock([checkedProducts.product])
         }

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import styles from "./home.module.scss"
 import { useTranslation } from "react-i18next"
@@ -6,6 +6,7 @@ import SvgIcon from "../../vendor/svgr/SvgIcon"
 import PincodeModal from "./PincodeModal"
 import SettingsModal from "./SettingsModal"
 import useSettingStore from "../../store/useSettings"
+import useStore from "../../store/store"
 
 interface LanguageItemProps {
   onClick: () => void, 
@@ -44,7 +45,24 @@ const Home = () => {
   const setIsPincodModalOpen = useSettingStore(store => store.setIsPincodModalOpen)
   const isSettingsModalOpen = useSettingStore(store => store.isSettingsModalOpen)
   
+  const isAutorized = useStore(state => state.isAutorized)
+  const getProdNashti = useStore(state => state.getProdNashti)
+  const resetStates = useStore(state => state.resetStates)
+  const autorization = useStore(state => state.autorization)
+  const storeCode = useSettingStore(state => state.selectedStoreId)
+  
   const { t, i18n } = useTranslation()
+
+  useEffect(() => {
+    resetStates()
+    autorization()
+  }, [])
+
+  useEffect(() => {
+    if(isAutorized && storeCode){
+      getProdNashti()
+    }
+  }, [isAutorized, storeCode])
 
   return (
     <div className={styles.wrapper}>

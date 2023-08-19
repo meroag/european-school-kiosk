@@ -11,7 +11,6 @@ interface Store {
         token: string,
     } | null
     isAutorized: boolean
-    avaibleProducts: any
     products: Product[];
     categories: ProdGroup[];
     productsNashti: ProductsNashti[]
@@ -22,18 +21,22 @@ interface Store {
     getProducts: (idProdGroup : number) => void
     getProdGroup: () => void;
     getProdNashti: () => void
+    resetStates: () => void
 }
 
-const useStore  = create<Store>((set) => ({
+const initialState = {
     isAutorized: false,
-    avaibleProducts: [],
     user: null,
     
     products: [],
     categories: [],
     productsNashti: [],
 
-    selectedCategoryId: null,
+    selectedCategoryId: null
+}
+
+const useStore  = create<Store>((set) => ({
+    ...initialState,
 
     setSelectedCategoryId: (id: number) => {
         set((state) => ({...state, selectedCategoryId: id}))
@@ -92,6 +95,10 @@ const useStore  = create<Store>((set) => ({
         catch (error){
             console.log(error)
         }
+    },
+
+    resetStates: () => {
+        set(initialState)
     }
 }))
 

@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   RouterProvider,
+  useNavigate,
 } from "react-router-dom";
 import "./styles/main.scss"
 import Home from "./pages/Home";
@@ -41,21 +42,8 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const autorization = useStore(state => state.autorization)
   const isAutorized = useStore(state => state.isAutorized)
-  const getProdNashti = useStore(state => state.getProdNashti)
-  const storeCode = useSettingStore(state => state.selectedStoreId)
   const getMdzgoli = useSettingStore(store => store.getMdzgoli)
-
-  useEffect(() => {
-    autorization()
-  }, [])  
-
-  useEffect(() => {
-    if(isAutorized && storeCode){
-      getProdNashti()
-    }
-  }, [isAutorized, storeCode])
 
   useEffect(() => {
     getMdzgoli()
