@@ -229,7 +229,7 @@ const useCartStore = create<Store>((set, get) => ({
         return fetch(ip, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/xml'
+            'Content-Type': 'text/xml'
           },
           body: xmlBody
         })
