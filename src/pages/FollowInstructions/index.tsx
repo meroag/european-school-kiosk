@@ -10,12 +10,22 @@ const FollowInstructions = () => {
 
   const saleProduct = async () => {
     try {
-      const resp = await sale(
+      const resp: any = await sale(
         "http://192.168.0.14:9015/",
         "SH042017",
         total.price
       )
-      console.log(resp)
+
+      const xmlResponse = await resp.text()
+      let parser = new DOMParser();
+      let xmlDoc = parser.parseFromString(xmlResponse, "text/xml");
+      
+      if(xmlDoc.getElementById("39")?.textContent === "1"){
+        navigate("/payment-successful")
+      }else{
+        navigate("/payment-declined")
+      }
+
     } catch (err) {
       alert(err)
       navigate("/")
