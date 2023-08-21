@@ -16,10 +16,11 @@ interface Store {
     productsNashti: ProductsNashti[]
     selectedCategoryId: null | number,
 
-    setSelectedCategoryId: (id: number) => void;
+    setSelectedCategoryId: (id: number | null) => void;
     autorization: () => void
     getProducts: (idProdGroup : number) => void
-    getProdGroup: () => void;
+    getProductsByCategoryIds: (categoryIds: number[]) => void
+    getProdGroup: () => Promise<ProdGroup[]>;
     getProdNashti: () => void
     resetStates: () => void
 }
@@ -38,7 +39,7 @@ const initialState = {
 const useStore  = create<Store>((set) => ({
     ...initialState,
 
-    setSelectedCategoryId: (id: number) => {
+    setSelectedCategoryId: (id) => {
         set((state) => ({...state, selectedCategoryId: id}))
     },
 
@@ -68,6 +69,29 @@ const useStore  = create<Store>((set) => ({
         }
     },
 
+    getProductsByCategoryIds: async (categoryIds) => {
+        try{
+            const promises = categoryIds.map((categoryId) => {
+                return axiosInstance.get(endpoints.GetProduct, {
+                    params: {
+                        IdProdGroup: categoryId
+                    }
+                })
+            })
+            const products: Product[] = []
+            await Promise.all(promises).then((results) => {
+                results.forEach((res: any) => {
+                    products.push(...res.data.Products)
+                })
+            })
+            set((state) => ({...state, products: products}))
+            
+        }
+        catch (error){
+            console.log(error)
+        }
+    },
+
     getProdNashti: async () => {
         const storeCode = useSettingStore.getState().selectedStoreId
         try{
@@ -91,6 +115,7 @@ const useStore  = create<Store>((set) => ({
                 }
             })
             set((state) => ({...state, categories: res.data.ProdGroups}))
+            return res.data.ProdGroups
         }
         catch (error){
             console.log(error)
