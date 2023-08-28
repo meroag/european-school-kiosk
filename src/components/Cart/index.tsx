@@ -18,7 +18,7 @@ const CartHeader = () => {
     const total = useCartStore(state => state.getTotalPrice())
     
     return (
-        <div className={styles.header}>
+        <div className={`${styles.header} ${total.price == 0 && styles.zero}`}>
             <h2>{t("Order summary")}</h2>
             <ul>
                 <li>
@@ -30,7 +30,7 @@ const CartHeader = () => {
                     <span>{total.calories}kcal</span>
                 </li>
             </ul>
-            <div className={styles.totalPrice}>
+            <div className={`${styles.totalPrice} ${total.price == 0 && styles.zero}`}>
                 {t("Total Price")}:
                 <span>{total.price.toFixed(2)}₾</span>
             </div>
@@ -84,7 +84,7 @@ const Cart = () => {
 
     return (
         <>
-            <div className={`${styles.wrapper} ${isOrderSummayPage && styles.onOrerPage}`}>
+            <div className={`${styles.wrapper} ${isOrderSummayPage && styles.onOrderPage} ${products.length > 0 && styles.heightChange}`}>
             <CartHeader />
             {isOrderSummayPage ? <>
                 <div className={styles.footer}>

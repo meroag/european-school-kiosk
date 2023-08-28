@@ -56,6 +56,7 @@ const useStore  = create<Store>((set) => ({
     },
 
     getProducts: async (categoryId: number) => {
+        set((state) => ({...state, products: []}))
         try{
             const res = await axiosInstance.get(endpoints.GetProduct, {
                 params: {

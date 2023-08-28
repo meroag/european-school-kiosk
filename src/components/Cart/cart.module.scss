@@ -22,7 +22,14 @@
     flex-direction: column;
     justify-content: space-between;
     animation: fadeUp 0.5s forwards;
+    transition: 0.2s;
+    height: 12rem;
 }
+
+.heightChange{
+    height: 25rem;
+}
+
 
 @keyframes cartHeightTransition {
     0% {
@@ -33,9 +40,8 @@
     }
 }
 
-.onOrerPage{
+.onOrderPage{
     animation: cartHeightTransition 0.4s forwards;
-    // transition: max-height 0.5s ease-in;
 }
 
 .header{
@@ -74,6 +80,13 @@
         gap: 0.625rem;
         margin-left: auto;
         cursor: pointer;
+    }
+    &.zero{
+        li{
+            span{
+                color: #DE1F26;
+            }
+        }
     }
 }
 
@@ -152,10 +165,18 @@
     font-size: 1.5rem;
     font-weight: 500;
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
     span{
         color: #487F1E;
         font-size: 1.5rem;
         font-weight: 600;
+    }
+    &.zero{
+        span{
+            color: #DE1F26;
+        }
     }
 }
 
