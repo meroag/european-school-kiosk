@@ -20,7 +20,9 @@ const CategorySidebar = () => {
   }
 
   useEffect(() => {
-    onMount()
+    if(!selectedCategoryId){
+      onMount()
+    }
   }, [])
 
   const onAllCategoryHandle = async () => {

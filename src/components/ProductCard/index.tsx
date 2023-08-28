@@ -60,7 +60,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
     
   return (
     <div className={`${styles.productCardWrapper} ${className}`}>
-        <div className={`${styles.imageWrapper} ${productAmount && 'onClick'} `} 
+        <div className={`${styles.imageWrapper}`} 
             onClick={onImageWrapperClick}
         >
             <img src={productImage || "/images/product.png"} alt="" />

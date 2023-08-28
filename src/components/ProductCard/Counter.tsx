@@ -13,9 +13,10 @@ interface CounterProps {
     onCancelHandle: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Counter = ({amount,maxAmount, visible, withRightControl, onPlusHandle, onMinusHandle, onCancelHandle}: CounterProps) => {
+const Counter = ({amount,maxAmount, withRightControl, onPlusHandle, onMinusHandle, onCancelHandle}: CounterProps) => {
     const [prevAmount, setPrevAmount] = useState(0)
     const [itemAmountClass, setItemAmountClass] = useState("")
+    const [visible, setVisible] = useState(true)
 
     const onPluesBtn = (e: MouseEvent<HTMLButtonElement>) => {
         if(itemAmountClass != "") return
@@ -38,9 +39,21 @@ const Counter = ({amount,maxAmount, visible, withRightControl, onPlusHandle, onM
         }, 200)
         onMinusHandle(e)
     }
+
+    const onCancelBtn = (e: MouseEvent<HTMLButtonElement>) => {
+        if(withRightControl){
+            onCancelHandle(e)
+        }else{
+            setVisible(false)
+            setTimeout(() => {
+                onCancelHandle(e)
+            }, 200)
+        }
+        
+    }
   return (
-    <div className={`${visible && styles.itemCounterVisible} ${withRightControl && styles.withRightControl} ${styles.itemCounter}`}>
-        {amount == 1 ? <button className={styles.cancelButton} onClick={(e) => onCancelHandle(e)}>
+    <div className={`${visible ? styles.itemCounterVisible : styles.itemCounterUnvisible} ${withRightControl && styles.withRightControl} ${styles.itemCounter}`}>
+        {amount == 1 ? <button className={styles.cancelButton} onClick={onCancelBtn}>
             <SvgIcon iconName="cancel" />
         </button> : <button className={styles.minusButton} onClick={onMinusBtn}>
             <SvgIcon iconName="minus" />

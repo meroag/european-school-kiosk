@@ -14,8 +14,6 @@ const ProductList = () => {
       getProducts(selectedCategoryId)
     }
   }, [selectedCategoryId])
-  
-  console.log(selectedCategoryId)
 
   return (
     <div className={styles.wrapper}>

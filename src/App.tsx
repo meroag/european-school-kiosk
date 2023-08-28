@@ -43,10 +43,24 @@ const router = createBrowserRouter([
 function App() {
   const isAutorized = useStore(state => state.isAutorized)
   const getMdzgoli = useSettingStore(store => store.getMdzgoli)
+  const getProdNashti = useStore(state => state.getProdNashti)
+  const storeCode = useSettingStore(state => state.selectedStoreId)
+  const autorization = useStore(state => state.autorization)
+
+  useEffect(() => {
+    autorization()
+  }, [])
 
   useEffect(() => {
     getMdzgoli()
   }, [isAutorized, getMdzgoli])
+
+
+  useEffect(() => {
+    if(isAutorized && storeCode){
+      getProdNashti()
+    }
+  }, [isAutorized, storeCode])
 
   return (
     <RouterProvider router={router} />
