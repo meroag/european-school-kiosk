@@ -15,6 +15,7 @@ const ProductList = () => {
     }
   }, [selectedCategoryId])
   
+  console.log(selectedCategoryId)
 
   return (
     <div className={styles.wrapper}>

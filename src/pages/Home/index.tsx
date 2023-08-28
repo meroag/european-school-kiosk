@@ -30,7 +30,7 @@ const LanguageItem = ({onClick, img, title, alt}: LanguageItemProps) => {
     setTimeout(() => {
       onClick && onClick()
       navigate("/products")
-    }, 300)
+    }, 200)
   }
 
   return (

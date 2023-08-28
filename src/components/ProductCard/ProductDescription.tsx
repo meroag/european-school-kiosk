@@ -15,15 +15,15 @@ const ProductDescription = ({product}: {product: Product }) => {
 
   return (
     <>
-        <button className={`${styles.closeButton} ${isProductDescriptionVisible && styles.closeButtonActive}`} onClick={infoButtonHandle}>
+        <button className={`${styles.closeButton} ${isProductDescriptionVisible ? styles.active : styles.inactive}`} onClick={infoButtonHandle}>
             <SvgIcon iconName="close" />
         </button>
        
-        <button className={`${styles.infoButton} ${isProductDescriptionVisible && styles.infoButtonInactive}`} onClick={infoButtonHandle}>
+        <button className={`${styles.infoButton} ${!isProductDescriptionVisible ? styles.active : styles.inactive}`} onClick={infoButtonHandle}>
             <SvgIcon iconName="info" /> 
         </button>
 
-        {isProductDescriptionVisible && <div className={styles.productDescriptionWrapper}>
+        <div className={`${styles.productDescriptionWrapper} ${isProductDescriptionVisible ? styles.active : styles.inactive}`}>
             <div className={styles.productDescriptionGroup}>
                 <h4>{t("Calories")}</h4>
                 <p>{product.Description2}kcal</p>
@@ -32,7 +32,7 @@ const ProductDescription = ({product}: {product: Product }) => {
                 <h4>{t("Ingredients")}</h4>
                 <p>{i18n.language == "en" ? product.Description3 : product.Description1}</p>
             </div>
-        </div>}
+        </div>
     </>
   )
 }

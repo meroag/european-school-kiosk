@@ -35,6 +35,16 @@
     }
 }
 
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
 @keyframes fadeUp {
     0% {
         opacity: 0;
@@ -54,6 +64,17 @@
     100% {
         rotate: -0;
         opacity: 1;
+    }
+}
+
+@keyframes hideCloseButton{
+    0% {
+        rotate: -0;
+        opacity: 1;
+    }
+    100% {
+        rotate: -90deg;
+        opacity: 0;
     }
 }
 
@@ -101,12 +122,22 @@
     }
 }
 
-.infoButtonInactive{
-    opacity: 0;
+.infoButton{
+    &.active{
+        animation: fadeIn forwards 0.2s;
+    }
+    &.inactive{
+        animation: fadeOut forwards 0.2s;
+    }
 }
 
-.closeButtonActive{
-    animation: showCloseButton forwards 0.2s;
+.closeButton{
+    &.active{
+        animation: showCloseButton forwards 0.2s;
+    }
+    &.inactive{
+        animation: hideCloseButton forwards 0.2s;
+    }
 }
 
 .contentWrapper{
@@ -301,14 +332,24 @@
     flex-direction: column;
     gap: 1.875rem;
     z-index: 1;
-    animation: fadeIn forwards 0.2s;
+    &.active{
+        animation: fadeIn forwards 0.2s;
+        .productDescriptionGroup{
+            animation: fadeUp forwards 0.2s;
+        }
+    }
+    &.inactive{
+        animation: fadeOut forwards 0.2s;
+        .productDescriptionGroup{
+            animation: fadeUp alternate 0.2s;
+        }
+    }
 }
 
 .productDescriptionGroup{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    animation: fadeUp forwards 0.2s;
     h4{
         color: #FFF;
         font-size: 1.125rem;
