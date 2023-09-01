@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import TerminalStatuses from '../../components/TerminalStatuses'
 import { useNavigate } from 'react-router-dom';
 import useCartStore from '../../store/useCartStore';
+import animationData from "../../animations/dataload.json"
+import styles from "./following-instructions.module.scss"
 
 const FollowInstructions = () => {
   const navigate = useNavigate();
@@ -33,12 +35,21 @@ const FollowInstructions = () => {
     }
   } 
 
+
+  const animationProps = {
+    src: animationData,
+    className: styles.lottieWrapper,
+    autoplay: true,
+    loop: true,
+    style: { width: 300, height: 300}
+  }
+
   useEffect(() => {
     saleProduct()
   }, [])
 
   return (
-    <TerminalStatuses status={"Follow instructions on terminal"} />
+    <TerminalStatuses status={"Follow instructions on terminal"} animationProps={animationProps} />
   )
 }
 
