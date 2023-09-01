@@ -12,28 +12,17 @@ const FollowInstructions = () => {
   const total = useCartStore(state => state.getTotalPrice())
   const salaroId = useSettingStore(state => state.selectedSalaroId)
 
-  function setIframeHTML(iframe: any, html: any) {
-    if (typeof iframe.srcdoc !== 'undefined') {
-      iframe.srcdoc = html;
-    } else {
-      iframe.sandbox = 'allow-same-origin';
-      iframe.contentWindow.document.open();
-      iframe.contentWindow.document.write(html);
-      iframe.contentWindow.document.close();
+  const print = (text: any) => {
+    var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+
+    if(WinPrint){
+      WinPrint.document.write(text);
+      WinPrint.document.close();
+      WinPrint.focus();
+      WinPrint.print();
+      WinPrint.close();
     }
   }
-  
-  function printDocument(html: any) {
-      const iframe = document.createElement('iframe');
-      // @ts-ignore: Unreachable code error
-      iframe.sandbox = ''; 
-      iframe.style.display = "none";
-      document.body.appendChild(iframe);
-      
-      const script = "script";
-      setIframeHTML(iframe, `<html><body>${html}<${script}>document.addEventListener("load", () => window.print());</${script}></html>`);
-  }
-
   const saleProduct = async () => {
     try {
       const resp: any = await axiosOperationInstance.post(
@@ -43,11 +32,14 @@ const FollowInstructions = () => {
           IdSalaro: salaroId
         }
       )
-      
-      printDocument(resp)
+        
+
+      print(resp.data)
       navigate("/payment-successful")
 
-    } catch (err) {
+    } catch (err: any) {
+      console.log(err)
+      print(err.response.data)
       navigate("/payment-declined")
     }
   } 
