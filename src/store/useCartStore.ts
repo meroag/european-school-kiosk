@@ -158,14 +158,14 @@ const useCartStore = create<Store>((set, get) => ({
                 "StoreId": storeCode,
                 "Amount": parseFloat( total.price.toFixed(2) ),
                 "Comment": ""
-              }
+            }
 
     
-                await axiosOperationInstance.post(endpoints.PayOrders, payOrderModel, {
-                    params: {
-                        orderID: orderId
-                    }
-                })
+            await axiosOperationInstance.post(endpoints.PayOrders, payOrderModel, {
+                params: {
+                    orderID: orderId
+                }
+            })
         } catch (err) {
             console.log(err)
         }
