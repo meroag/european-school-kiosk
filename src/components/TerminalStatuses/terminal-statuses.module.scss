@@ -1,16 +1,28 @@
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translate(0, 4rem);
+    }
+    100% {
+        transform: translate(0, 0rem);
+        opacity: 1;
+    }
+}
+
 .wrapper{
     height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: #1C1952;
     h1{
-        margin-top: 44rem;
+        margin-top: 5rem;
         color: #FFF;
         text-align: center;
         font-size: 3rem;
         font-weight: 600;
         max-width: 27rem;
         margin-inline: auto;
+        animation: fadeUp 0.5s forwards;
     }
 }
 
@@ -22,10 +34,5 @@
     margin-top: 6.25rem;
     img{
         height: 15.625rem;
-    }
-    h1{
-        color: #FFF;
-        font-size: 3rem;
-        font-weight: 600;
     }
 }
