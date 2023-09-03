@@ -10,6 +10,7 @@ import useSettingStore from '../../store/useSettings';
 const FollowInstructions = () => {
   const navigate = useNavigate();
   const total = useCartStore(state => state.getTotalPrice())
+  const payOrders = useCartStore(state => state.payOrders)
   const salaroId = useSettingStore(state => state.selectedSalaroId)
 
   const print = (text: any) => {

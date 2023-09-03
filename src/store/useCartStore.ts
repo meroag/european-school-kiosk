@@ -25,7 +25,7 @@ interface Store {
 
     checkCartProducts: () => Promise<{status: true, product: null} | {status: false, product: Product | null}>;
     saveOrder: () => any
-    payOrders: (orderId: number) => void
+    payOrders: () => void
 
     finalizeOrder: () => void
     sale: (ip: string, id: string, amount: number) => void
@@ -144,7 +144,7 @@ const useCartStore = create<Store>((set, get) => ({
         }
     },
 
-    payOrders: async (orderId: number) => {
+    payOrders: async () => {
         try{
             const storeCode = useSettingStore.getState().selectedStoreId 
             const salaroId = useSettingStore.getState().selectedSalaroId 
@@ -169,7 +169,7 @@ const useCartStore = create<Store>((set, get) => ({
     
             await axiosOperationInstance.post(endpoints.PayOrders, payOrderModel, {
                 params: {
-                    orderID: orderId
+                    orderID: get().savedOrderId
                 }
             })
         } catch (err) {
