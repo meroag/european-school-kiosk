@@ -11,6 +11,8 @@ interface Store {
     }[],
     products: Product[];
 
+    savedOrderId: null | number,
+
     getProductAmount: (id: string | number) => {
         amount: number,
         id: string | number
@@ -39,6 +41,7 @@ interface Store {
 const initialState = {
     productsByAmount: [],
     products: [],
+    savedOrderId: null
 } 
 
 const useCartStore = create<Store>((set, get) => ({
@@ -67,6 +70,9 @@ const useCartStore = create<Store>((set, get) => ({
     deleteProductFromCart: (id: number | string) => {
         set((state) => ({...state, products: state.products.filter(pr => pr.ProdCode != id) }))
         set((state) => ({...state, productsByAmount: state.productsByAmount.filter(pr => pr.id != id) }))
+        if(get().productsByAmount.length == 0 && window.location.pathname == "/order-summary"){
+            window.location.pathname = "/products"
+        }
     },
 
     getTotalPrice: () => {
@@ -238,7 +244,7 @@ const useCartStore = create<Store>((set, get) => ({
     finalizeOrder: async () => {
         try {
             const orderId = await get().saveOrder()
-            get().payOrders(orderId)
+            set((state) => ({...state, savedOrderId: orderId}))
         } catch (err) {
             console.log(err)
         }

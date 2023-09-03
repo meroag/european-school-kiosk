@@ -17,7 +17,6 @@ interface ProductCardProps {
 const ProductCard = ({product,className, withRightControl}:ProductCardProps) => {
     const { i18n } = useTranslation()
     
-    
     const productsNashti = useStore(state => state.productsNashti)
     const storeCode = useSettingStore(state => state.selectedStoreId)
 
@@ -59,7 +58,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
     const productImage = `https://fmg.mark4.ge/api/GetProductPicture?ProdCode=${product.ProdCode}`
     
   return (
-    <div className={`${styles.productCardWrapper} ${className}`}>
+    <div className={`${styles.productCardWrapper} ${className} ${withRightControl && styles.rightControll}`}>
         <div className={`${styles.imageWrapper}`} 
             onClick={onImageWrapperClick}
         >

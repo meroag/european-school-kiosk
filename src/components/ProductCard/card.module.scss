@@ -6,6 +6,10 @@
     animation: fadeUp 0.4s forwards;
 }
 
+.rightControll{
+    animation: none !important;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -60,7 +64,7 @@
 
 @keyframes showLeft {
     from {
-        transform: translate(-2.5rem, 0);
+        transform: translate(-1rem, 0);
     }
     to {
         transform: translate(0, 0);
@@ -69,7 +73,7 @@
 
 @keyframes showRight {
     from {
-        transform: translate(2.5rem, 0);
+        transform: translate(1rem, 0);
     }
     to {
         transform: translate(0, 0);
@@ -302,6 +306,7 @@
     .itemAmount{
         color: #000;
         font-size: 1.875rem;
+        animation: none !important;
     }
     button{
         animation: none !important;
