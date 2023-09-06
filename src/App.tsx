@@ -1,7 +1,6 @@
 import {
   createBrowserRouter,
   RouterProvider,
-  useNavigate,
 } from "react-router-dom";
 import "./styles/main.scss"
 import Home from "./pages/Home";
