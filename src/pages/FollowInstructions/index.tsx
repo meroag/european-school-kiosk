@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useCartStore from '../../store/useCartStore';
 import animationData from "../../animations/dataload.json"
 import styles from "./following-instructions.module.scss"
-import { axiosInstance, axiosOperationInstance, endpoints } from '../../utils/api';
+import { axiosOperationInstance, endpoints } from '../../utils/api';
 import useSettingStore from '../../store/useSettings';
 
 const FollowInstructions = () => {
@@ -33,7 +33,7 @@ const FollowInstructions = () => {
           IdSalaro: salaroId
         }
       )
-        
+      payOrders()
 
       print(resp.data)
       navigate("/payment-successful")

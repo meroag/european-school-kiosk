@@ -1,7 +1,6 @@
 import {
   createBrowserRouter,
   RouterProvider,
-  useNavigate,
 } from "react-router-dom";
 import "./styles/main.scss"
 import Home from "./pages/Home";
@@ -55,7 +54,7 @@ function App() {
   }
 
   useEffect(() => {
-    if (performance.navigation.type === 1) {
+    if (performance.navigation.type === 1 && window.location.pathname != '/') {
       window.location.pathname = '/';
     }
     toggleFullScreen()
