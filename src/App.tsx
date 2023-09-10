@@ -54,7 +54,7 @@ function App() {
   }
 
   useEffect(() => {
-    if (performance.navigation.type === 1) {
+    if (performance.navigation.type === 1 && window.location.pathname != '/') {
       window.location.pathname = '/';
     }
     toggleFullScreen()
