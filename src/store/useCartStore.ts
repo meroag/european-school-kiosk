@@ -27,7 +27,7 @@ interface Store {
     saveOrder: () => any
     payOrders: () => void
 
-    finalizeOrder: () => void
+    finalizeOrder: () => Promise<number>
     sale: (ip: string, id: string, amount: number) => void
     getTotalPrice: () =>  {
         products: number,
@@ -246,8 +246,10 @@ const useCartStore = create<Store>((set, get) => ({
         try {
             const orderId = await get().saveOrder()
             set((state) => ({...state, savedOrderId: orderId}))
+            return orderId
         } catch (err) {
             console.log(err)
+            return 0
         }
 
     },

@@ -40,15 +40,17 @@ const FollowInstructions = () => {
   
   const saleProduct = async () => {
     try {
+      const orderId = await finalizeOrder()
+
       const resp: any = await axiosOperationInstance.post(
         endpoints.PayTerminal,
         {
           Amount: total.price,
-          IdSalaro: salaroId
+          IdSalaro: salaroId,
+          IdReal1: orderId
         }
       )
 
-      await finalizeOrder()
       await payOrders()
 
       // print(resp.data)

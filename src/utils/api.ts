@@ -12,7 +12,7 @@ export const endpoints = {
     GetMdzgoli: "GetMdzgoli",
     SaveOrder: "mark4/operations/SaveOrder",
     PayOrders: "mark4/operations/PayOrders",
-    PayTerminal: "mark4/TbcTerminal/Index",
+    PayTerminal: "mark4/TbcTerminal/Payment",
     CloseDay : "mark4/TbcTerminal/CloseDay"
 }
 
