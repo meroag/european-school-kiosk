@@ -148,7 +148,6 @@ const useCartStore = create<Store>((set, get) => ({
         try{
             const storeCode = useSettingStore.getState().selectedStoreId 
             const salaroId = useSettingStore.getState().selectedSalaroId 
-            const piramidaNumber = useSettingStore.getState().piramidaNumber 
             const cliendId = useStore.getState()?.user?.ClientId
 
             const total = get().getTotalPrice()
@@ -164,7 +163,7 @@ const useCartStore = create<Store>((set, get) => ({
                 "PurchaseType": "",
                 "StoreId": storeCode,
                 "Amount": parseFloat( total.price.toFixed(2) ),
-                "Comment": `piramida: ${piramidaNumber}`
+                "Comment": ""
             }
 
     
@@ -182,6 +181,7 @@ const useCartStore = create<Store>((set, get) => ({
         const storeCode = useSettingStore.getState().selectedStoreId 
         const driverCode = useSettingStore.getState().selectedDriver 
         const cliendId = useStore.getState()?.user?.ClientId
+        const piramidaNumber = useSettingStore.getState().piramidaNumber 
         
         const saveOrderBody: any = {
             "OrderId": 0,
@@ -189,7 +189,7 @@ const useCartStore = create<Store>((set, get) => ({
             "Date": new Date().toISOString(),
             "StoreId": storeCode,
             "DriverID": driverCode,
-            "Comment": "",
+            "Comment": `${piramidaNumber || ""}`,
             NeedsTransportation: true,
             "TransportationAddress": "",
             "SenderName": "",

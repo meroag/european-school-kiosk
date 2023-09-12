@@ -12,6 +12,7 @@ const FollowInstructions = () => {
   const total = useCartStore(state => state.getTotalPrice())
   const payOrders = useCartStore(state => state.payOrders)
   const salaroId = useSettingStore(state => state.selectedSalaroId)
+  const finalizeOrder = useCartStore(state => state.finalizeOrder)
 
 
   // const print = (text: any) => {
@@ -46,7 +47,9 @@ const FollowInstructions = () => {
           IdSalaro: salaroId
         }
       )
-      payOrders()
+
+      await finalizeOrder()
+      await payOrders()
 
       // print(resp.data)
       printEthernalPrinter(resp.data)

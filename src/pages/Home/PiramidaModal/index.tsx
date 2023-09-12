@@ -5,7 +5,7 @@ import useSettingStore from "../../../store/useSettings"
 import { useNavigate } from "react-router-dom"
 
 interface PiramidaModal {
-    close: (event: MouseEvent<HTMLButtonElement>) => void
+    close: () => void
 }
 const PiramidaModal = ({close}: PiramidaModal) => {
     const navigate = useNavigate()
@@ -15,6 +15,11 @@ const PiramidaModal = ({close}: PiramidaModal) => {
 
     const onSaveHandle = () => {
         setPiramidaNumber(Number(input))
+        navigate("/products")
+    }
+
+    const onClose = () => {
+        close()
         navigate("/products")
     }
 
@@ -37,7 +42,7 @@ const PiramidaModal = ({close}: PiramidaModal) => {
             </div>
             <div className={styles.footerWrapper}>
                 <button className={styles.saveBtn} onClick={onSaveHandle} disabled={input.length == 0}>OK</button>
-                <button className={styles.cancelBtn} onClick={close}>CANCEL</button>
+                <button className={styles.cancelBtn} onClick={onClose}>CANCEL</button>
             </div>
         </div>
     </div>
