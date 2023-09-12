@@ -31,6 +31,18 @@ const CategorySidebar = () => {
     await getProductsByCategoryIds(categoryIds)
   }
 
+  const svgsById: any = {
+    254: <SvgIcon iconName={"drinks"} />,
+    255: <SvgIcon iconName={"meals"} />,
+    256: <SvgIcon iconName={"desert"} />,
+    258: <SvgIcon iconName={"vegan"} />,
+
+    127: <SvgIcon iconName={"drinks"} />,
+    128: <SvgIcon iconName={"meals"} />,
+    133: <SvgIcon iconName={"desert"} />,
+    180: <SvgIcon iconName={"vegan"} />,
+  }
+
   return (
     <div className={styles.wrapper}>
       {categories.length > 0 && <button className={`${styles.categoryItemWrapper} ${ selectedCategoryId == null ? styles.categoryItemWrapperActive : ""}`} onClick={onAllCategoryHandle}>
@@ -40,7 +52,7 @@ const CategorySidebar = () => {
       }
       {categories.map((category) => (
         <button key={category.IdProdGroup} className={`${styles.categoryItemWrapper} ${category.IdProdGroup == selectedCategoryId ? styles.categoryItemWrapperActive : ""}`} onClick={() => setSelectedCategoryId(category.IdProdGroup)}>
-            <SvgIcon iconName={"Food"} />
+            {svgsById[category.IdProdGroup] || <SvgIcon iconName={"Food"} />}
             <h2>{i18n.language == "ka" ? category.ProdGroupName : category.ProdGroupENG }</h2>
         </button>
       ))}

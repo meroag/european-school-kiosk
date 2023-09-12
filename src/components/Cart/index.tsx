@@ -48,7 +48,6 @@ const Cart = () => {
 
     const products = useCartStore(state => state.products)
     const resetStates = useCartStore(state => state.resetStates)
-    const finalizeOrder = useCartStore(state => state.finalizeOrder)
     const checkCartProducts = useCartStore(state => state.checkCartProducts)
     
     const onOrderClick = () => {
@@ -68,7 +67,6 @@ const Cart = () => {
         const checkedProducts = await checkCartProducts()
         if(checkedProducts.status){
             try {
-                await finalizeOrder()
                 navigate("/follow-instructions")
             } catch (err) {
                 console.log(err)

@@ -16,7 +16,7 @@ const SettingsModal = () => {
     const [storeId, setStoreId] = useState(selectedStoreId)
     const setSelectedStoreId = useSettingStore(state => state.setSelectedStoreId)
     const getStore = useSettingStore(state => state.getStore)
-
+    const closeDay = useSettingStore(state => state.closeDay)
     const setIsSettingsModalOpen = useSettingStore(state => state.setIsSettingsModalOpen)
     
 
@@ -46,6 +46,10 @@ const SettingsModal = () => {
                 <div className={styles.selectGroup}>
                     <span>{"Select Stores"}</span>
                     <Select options={stores} selecedItemId={storeId} onOptionHandle={(id) => setStoreId(id)}/>
+                </div>
+
+                <div className={styles.selectGroup}>
+                    <button className={styles.cancelBtn} onClick={closeDay}>{"დღის დახურვა"}</button>
                 </div>
             </div>
 

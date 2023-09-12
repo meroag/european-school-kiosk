@@ -13,32 +13,6 @@ import PaymentSuccessful from "./pages/PaymentSuccessful";
 import PaymentDeclined from "./pages/PaymentDeclined";
 import useSettingStore from "./store/useSettings";
 
-const Test = () => {
-  function setIframeHTML(iframe: any, html: any) {
-    if (typeof iframe.srcdoc !== 'undefined') {
-      iframe.srcdoc = html;
-    } else {
-      iframe.sandbox = 'allow-same-origin';
-      iframe.contentWindow.document.open();
-      iframe.contentWindow.document.write(html);
-      iframe.contentWindow.document.close();
-    }
-  }
-  
-  function printDocument(html: any) {
-      const iframe = document.createElement('iframe');
-      // @ts-ignore: Unreachable code error
-      iframe.sandbox = ''; 
-      iframe.style.display = "none";
-      document.body.appendChild(iframe);
-      
-      const script = "script";
-      setIframeHTML(iframe, `<html><body>${html}<${script}>document.addEventListener("load", () => window.print());</${script}></html>`);
-  }
-
-  return <button onClick={() => printDocument("test tetet ttt ttttt tt")}>Test Btn</button>
-}
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -63,10 +37,6 @@ const router = createBrowserRouter([
   {
     path: "/payment-declined",
     element: <PaymentDeclined />,
-  },
-  {
-    path: "/print",
-    element: <Test />
   }
 ]);
 
@@ -84,8 +54,12 @@ function App() {
   }
 
   useEffect(() => {
+    if (performance.navigation.type === 1 && window.location.pathname != '/') {
+      window.location.pathname = '/';
+    }
     toggleFullScreen()
     autorization()
+    
   }, [])
 
   useEffect(() => {

@@ -11,6 +11,8 @@ interface Store {
     }[],
     products: Product[];
 
+    savedOrderId: null | number,
+
     getProductAmount: (id: string | number) => {
         amount: number,
         id: string | number
@@ -23,7 +25,7 @@ interface Store {
 
     checkCartProducts: () => Promise<{status: true, product: null} | {status: false, product: Product | null}>;
     saveOrder: () => any
-    payOrders: (orderId: number) => void
+    payOrders: () => void
 
     finalizeOrder: () => void
     sale: (ip: string, id: string, amount: number) => void
@@ -39,6 +41,7 @@ interface Store {
 const initialState = {
     productsByAmount: [],
     products: [],
+    savedOrderId: null
 } 
 
 const useCartStore = create<Store>((set, get) => ({
@@ -67,6 +70,9 @@ const useCartStore = create<Store>((set, get) => ({
     deleteProductFromCart: (id: number | string) => {
         set((state) => ({...state, products: state.products.filter(pr => pr.ProdCode != id) }))
         set((state) => ({...state, productsByAmount: state.productsByAmount.filter(pr => pr.id != id) }))
+        if(get().productsByAmount.length == 0 && window.location.pathname == "/order-summary"){
+            window.location.pathname = "/products"
+        }
     },
 
     getTotalPrice: () => {
@@ -138,7 +144,7 @@ const useCartStore = create<Store>((set, get) => ({
         }
     },
 
-    payOrders: async (orderId: number) => {
+    payOrders: async () => {
         try{
             const storeCode = useSettingStore.getState().selectedStoreId 
             const salaroId = useSettingStore.getState().selectedSalaroId 
@@ -163,7 +169,7 @@ const useCartStore = create<Store>((set, get) => ({
     
             await axiosOperationInstance.post(endpoints.PayOrders, payOrderModel, {
                 params: {
-                    orderID: orderId
+                    orderID: get().savedOrderId
                 }
             })
         } catch (err) {
@@ -175,6 +181,7 @@ const useCartStore = create<Store>((set, get) => ({
         const storeCode = useSettingStore.getState().selectedStoreId 
         const driverCode = useSettingStore.getState().selectedDriver 
         const cliendId = useStore.getState()?.user?.ClientId
+        const piramidaNumber = useSettingStore.getState().piramidaNumber 
         
         const saveOrderBody: any = {
             "OrderId": 0,
@@ -182,7 +189,7 @@ const useCartStore = create<Store>((set, get) => ({
             "Date": new Date().toISOString(),
             "StoreId": storeCode,
             "DriverID": driverCode,
-            "Comment": "",
+            "Comment": `${piramidaNumber || ""}`,
             NeedsTransportation: true,
             "TransportationAddress": "",
             "SenderName": "",
@@ -238,7 +245,7 @@ const useCartStore = create<Store>((set, get) => ({
     finalizeOrder: async () => {
         try {
             const orderId = await get().saveOrder()
-            get().payOrders(orderId)
+            set((state) => ({...state, savedOrderId: orderId}))
         } catch (err) {
             console.log(err)
         }
