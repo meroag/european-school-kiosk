@@ -1,6 +1,6 @@
 
 import create from "zustand"
-import { axiosInstance, endpoints } from "../utils/api"
+import { axiosInstance, axiosOperationInstance, endpoints } from "../utils/api"
 import { DriverItem, SalaroItem, StoreItem } from "../interfaces"
 
 interface Store {
@@ -19,13 +19,15 @@ interface Store {
     setSelectedSalaroId: (id: number) => void;
     setIsPincodModalOpen: (val: boolean) => void
     setIsSettingsModalOpen: (val: boolean) => void
+
+    closeDay: () => void;
     
     getMdzgoli: () => void
     getSalaro: () => void
     getStore: () => void
 }
 
-const useSettingStore  = create<Store>((set) => ({
+const useSettingStore  = create<Store>((set, get) => ({
     salaros: [],
     stores: [],    
     drivers: [],
@@ -61,6 +63,18 @@ const useSettingStore  = create<Store>((set) => ({
             drivers: resp.data.Mdzgolebi, 
             selectedDriver: resp.data.Mdzgolebi[0]["MdzgoliCode"]
         }))
+    },
+
+    closeDay: async () => {
+        try{
+            axiosOperationInstance.get(endpoints.CloseDay, {
+                params: {
+                    IdSalaro: get().selectedSalaroId
+                }
+            })
+        } catch (err) {
+            alert(err)
+        }
     },
 
     setSelectedSalaroId: (id: number) => {
