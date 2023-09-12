@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 import styles from "./home.module.scss"
 import { useTranslation } from "react-i18next"
 import SvgIcon from "../../vendor/svgr/SvgIcon"
@@ -8,6 +7,7 @@ import SettingsModal from "./SettingsModal"
 import useSettingStore from "../../store/useSettings"
 import useStore from "../../store/store"
 import useCartStore from "../../store/useCartStore"
+import PiramidaModal from "./PiramidaModal"
 
 interface LanguageItemProps {
   onClick: () => void, 
@@ -17,7 +17,6 @@ interface LanguageItemProps {
 }
 
 const LanguageItem = ({onClick, img, title, alt}: LanguageItemProps) => {
-  const navigate = useNavigate()
   const [isClicked, setIsClicked] = useState(false)
   const storeCode = useSettingStore(state => state.selectedStoreId) 
   const salaroId = useSettingStore(state => state.selectedSalaroId) 
@@ -29,7 +28,6 @@ const LanguageItem = ({onClick, img, title, alt}: LanguageItemProps) => {
     setIsClicked(true)
     setTimeout(() => {
       onClick && onClick()
-      navigate("/products")
     }, 200)
   }
 
@@ -52,6 +50,7 @@ const Home = () => {
   const resetCartStates = useCartStore(state => state.resetStates)
   const autorization = useStore(state => state.autorization)
   const storeCode = useSettingStore(state => state.selectedStoreId)
+  const [isPiramidaModalOpen, setIsPiramidaModalOpen] = useState(false)
   
   const { t, i18n } = useTranslation()
 
@@ -66,6 +65,11 @@ const Home = () => {
       getProdNashti()
     }
   }, [isAutorized, storeCode])
+
+  const onLanguageItemClick = (lang: "ka" | "en") => {
+    i18n.changeLanguage(lang)
+    setIsPiramidaModalOpen(true)
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -83,13 +87,13 @@ const Home = () => {
         <h2>Choose language</h2>
         <nav>
           <LanguageItem 
-            onClick={() => i18n.changeLanguage("ka")}
+            onClick={() => onLanguageItemClick("ka")}
             img={"/flags/georgian-lg.png"}
             alt={"georgian flag"}
             title={"ქართული"}
           />
           <LanguageItem 
-            onClick={() => i18n.changeLanguage("en")}
+            onClick={() => onLanguageItemClick("en")}
             img={"/flags/british-lg.png"}
             alt={"british flag"}
             title={"English"}
@@ -97,6 +101,8 @@ const Home = () => {
         </nav>
       </div>
 
+      
+      {isPiramidaModalOpen &&  <PiramidaModal close={() => setIsPiramidaModalOpen(false)} />}
       {isPincodModalOpen  && <PincodeModal />}
       {isSettingsModalOpen && <SettingsModal />}
     </div>

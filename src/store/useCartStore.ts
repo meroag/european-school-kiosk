@@ -148,6 +148,7 @@ const useCartStore = create<Store>((set, get) => ({
         try{
             const storeCode = useSettingStore.getState().selectedStoreId 
             const salaroId = useSettingStore.getState().selectedSalaroId 
+            const piramidaNumber = useSettingStore.getState().piramidaNumber 
             const cliendId = useStore.getState()?.user?.ClientId
 
             const total = get().getTotalPrice()
@@ -163,7 +164,7 @@ const useCartStore = create<Store>((set, get) => ({
                 "PurchaseType": "",
                 "StoreId": storeCode,
                 "Amount": parseFloat( total.price.toFixed(2) ),
-                "Comment": ""
+                "Comment": `piramida: ${piramidaNumber}`
             }
 
     

@@ -7,7 +7,8 @@ interface Store {
     selectedDriver: null | number
     selectedSalaroId: null | number
     selectedStoreId: null | number
-    
+    piramidaNumber: null | number
+
     salaros: SalaroItem[]
     stores: StoreItem[]
     drivers: DriverItem[]
@@ -17,6 +18,7 @@ interface Store {
     
     setSelectedStoreId: (id: number) => void;
     setSelectedSalaroId: (id: number) => void;
+    setPiramidaNumber: (val : number) => void
     setIsPincodModalOpen: (val: boolean) => void
     setIsSettingsModalOpen: (val: boolean) => void
 
@@ -31,6 +33,7 @@ const useSettingStore  = create<Store>((set, get) => ({
     salaros: [],
     stores: [],    
     drivers: [],
+    piramidaNumber: null,
 
     selectedDriver: null,
     selectedStoreId: Number(localStorage.getItem("storeId")) || null,
@@ -97,6 +100,10 @@ const useSettingStore  = create<Store>((set, get) => ({
         }
         set(state => ({...state, isSettingsModalOpen: val}))
     },
+
+    setPiramidaNumber: (val) => {
+        set(state => ({...state, piramidaNumber: val}))
+    }
 }))
 
 
