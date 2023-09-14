@@ -1,4 +1,4 @@
-import {useState, MouseEvent} from "react"
+import {useState } from "react"
 import styles from "./piramida.module.scss"
 import SvgIcon from "../../../vendor/svgr/SvgIcon"
 import useSettingStore from "../../../store/useSettings"
