@@ -70,11 +70,10 @@ const useSettingStore  = create<Store>((set, get) => ({
 
     closeDay: async () => {
         try{
-            axiosOperationInstance.get(endpoints.CloseDay, {
-                params: {
-                    IdSalaro: get().selectedSalaroId
-                }
-            })
+            const closeDayModel = {
+                IdSalaro: get().selectedSalaroId,
+            }
+            await axiosOperationInstance.post(endpoints.CloseDay, closeDayModel)
         } catch (err) {
             alert(err)
         }
