@@ -74,7 +74,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
                 onCancelHandle={onCancelHandle} 
             />}
             {!withRightControl && <ProductDescription product={product} />}
-            {productNashti == 0 && <NotInStock />}
+            {productNashti <= 0 && <NotInStock />}
         </div>
         <div className={styles.contentWrapper}>
             <h3>{i18n.language == "en" ? product.ProductNameENG : product.ProductName}</h3>
