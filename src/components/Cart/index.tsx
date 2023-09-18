@@ -47,7 +47,6 @@ const Cart = () => {
     const isOrderSummayPage = location.pathname == "/order-summary"
 
     const products = useCartStore(state => state.products)
-    const productsByAmount = useCartStore(state => state.productsByAmount)
     const resetStates = useCartStore(state => state.resetStates)
     const checkCartProducts = useCartStore(state => state.checkCartProducts)
     

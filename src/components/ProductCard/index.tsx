@@ -47,7 +47,7 @@ const ProductCard = ({product,className, withRightControl}:ProductCardProps) => 
     }
     
     const onCancelHandle = (e: MouseEvent<HTMLButtonElement>) => {
-        deleteProductFromCart(product.ProdCode)   
+        deleteProductFromCart(product.ProdCode, true)   
         e.stopPropagation()
     }
 
