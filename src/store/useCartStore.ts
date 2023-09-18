@@ -21,9 +21,9 @@ interface Store {
     
     increaseProductAmount: (id: number | string) => void
     decreaseProductAmount: (id: number | string) => void
-    deleteProductFromCart: (id: number | string) => void
+    deleteProductFromCart: (id: number | string, withredirect: boolean) => void
 
-    checkCartProducts: () => Promise<{status: true, product: null} | {status: false, product: Product | null}>;
+    checkCartProducts: () => any;
     saveOrder: () => any
     payOrders: () => void
 
@@ -67,10 +67,10 @@ const useCartStore = create<Store>((set, get) => ({
         }]}))
     },
 
-    deleteProductFromCart: (id: number | string) => {
+    deleteProductFromCart: (id: number | string, withredirect = true) => {
         set((state) => ({...state, products: state.products.filter(pr => pr.ProdCode != id) }))
         set((state) => ({...state, productsByAmount: state.productsByAmount.filter(pr => pr.id != id) }))
-        if(get().productsByAmount.length == 0 && window.location.pathname == "/order-summary"){
+        if(withredirect && get().productsByAmount.length == 0 && window.location.pathname == "/order-summary"){
             window.location.pathname = "/products"
         }
     },
@@ -102,46 +102,74 @@ const useCartStore = create<Store>((set, get) => ({
         const productsByAmount = get().productsByAmount
 
         const promises = productsByAmount.map((pr) => {
-            return axiosInstance.get(endpoints.GetProdNashti, {
-                params: {
-                    StoreCode: storeCode,
-                    ProdCode: pr.id
-                }
-            })
-        })
+            return new Promise(async (res) => {
+                const product = await axiosInstance.get(endpoints.GetProdNashti, {
+                    params: {
+                        StoreCode: storeCode,
+                        ProdCode: pr.id
+                    }
+                })
 
-        let index = 0
-        for await( const product of promises){
-            const productInCart = productsByAmount[index]
-            if(product.data.StoreProdNashtebi[0]["ProdNashtebi"]
-            .find((pr: any) => pr.ProdCode == productInCart.id)
-            ?.Nashti < productInCart.amount){
-
-                const product = get().products.find(pr => pr.ProdCode == productInCart.id)
-                get().deleteProductFromCart(productInCart.id)
-
-                if(product){
-                    return {
+                const productInCart = pr
+                const nashti = product.data.StoreProdNashtebi[0]?.ProdNashtebi?.find((pr: any) => pr.ProdCode == productInCart.id)?.Nashti || -1
+                
+                if(product.data.StoreProdNashtebi.length == 0 || (nashti > 0  && nashti < productInCart.amount)){
+                    const product = get().products.find(pr => pr.ProdCode == productInCart.id)
+                    get().deleteProductFromCart(productInCart.id, false)
+    
+                    res({
                         status: false,
                         product: product
-                    }    
+                    })
                 }else{
-                    alert("something went wrong")
-                    return {
-                        status: false,
+                    res({
+                        status: true,
                         product: null
-                    }    
+                    })
                 }
+            } ) 
+        })
+
+        const values = await Promise.all(promises)
+
+        const erroredProduct = values.find((v: any) => v.status == false )
+        if(erroredProduct){
+            return erroredProduct
+        }else{
+            return {
+                status: true,
+                product: null
             }
-
-            index++
         }
+        // for ( const product of promises){
+        //     const productInCart = productsByAmount[index]
+
+        //     const nashti = product.data.StoreProdNashtebi[0]?.ProdNashtebi?.find((pr: any) => pr.ProdCode == productInCart.id)?.Nashti || -1
+            
+        //     if(product.data.StoreProdNashtebi.length == 0 || (nashti > 0  && nashti < productInCart.amount)){
+
+        //         const product = get().products.find(pr => pr.ProdCode == productInCart.id)
+        //         get().deleteProductFromCart(productInCart.id)
+
+        //         if(product){
+        //             return {
+        //                 status: false,
+        //                 product: product
+        //             }    
+        //         }else{
+        //             alert("something went wrong")
+        //             return {
+        //                 status: false,
+        //                 product: null
+        //             }    
+        //         }
+        //     }
+
+        //     index++
+        // }
 
 
-        return {
-            status: true,
-            product: null
-        }
+
     },
 
     payOrders: async () => {

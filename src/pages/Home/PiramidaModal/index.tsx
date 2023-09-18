@@ -23,20 +23,25 @@ const PiramidaModal = ({close}: PiramidaModal) => {
         navigate("/products")
     }
 
+    const onPinCodeChange = (newstr: string) => {
+        if(newstr.length > 5) return
+        setInput(newstr)
+    }
+
   return (
     <div className={styles.overlay}>
         <div className={styles.modal}>
-            <h2 className={styles.modalTitle}>Piramida Number</h2>
+            <h2 className={styles.modalTitle}>Table Number</h2>
             <div className={styles.modalInput}>{input}</div>
             <div className={styles.pins}>
                 {Array(9).fill("").map((_,i) => (
-                    <button className={styles.pinBtn} onClick={() => setInput(input + i++)} key={i}>{++i}</button>
+                    <button className={styles.pinBtn} onClick={() => onPinCodeChange(input + i++)} key={i}>{++i}</button>
                 ))}
-                <button className={styles.pinBtn} onClick={() => setInput(input.slice(0, -1))}>
+                <button className={styles.pinBtn} onClick={() => onPinCodeChange(input.slice(0, -1))}>
                     <SvgIcon iconName="clear-last" />
                 </button>
-                <button className={styles.pinBtn} onClick={() => setInput(input + 0)}>0</button>
-                <button className={styles.pinBtn} onClick={() => setInput("")}>
+                <button className={styles.pinBtn} onClick={() => onPinCodeChange(input + 0)}>0</button>
+                <button className={styles.pinBtn} onClick={() => onPinCodeChange("")}>
                     <SvgIcon iconName="clear" />
                 </button>
             </div>

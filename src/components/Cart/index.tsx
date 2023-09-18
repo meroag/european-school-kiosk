@@ -47,6 +47,7 @@ const Cart = () => {
     const isOrderSummayPage = location.pathname == "/order-summary"
 
     const products = useCartStore(state => state.products)
+    const productsByAmount = useCartStore(state => state.productsByAmount)
     const resetStates = useCartStore(state => state.resetStates)
     const checkCartProducts = useCartStore(state => state.checkCartProducts)
     
@@ -66,18 +67,18 @@ const Cart = () => {
     const onFinalizeOrder = async () => {
         const checkedProducts = await checkCartProducts()
         if(checkedProducts.status){
-            try {
-                navigate("/follow-instructions")
-            } catch (err) {
-                console.log(err)
-            }
+            navigate("/follow-instructions")
         }else if(checkedProducts.product != null){
             setOutOfStock([checkedProducts.product])
         }
     }
 
     const onModalOkBtn = (product: Product) => {
+        console.log(outOfStock)
         setOutOfStock(outOfStock.filter(pr => pr.ProdCode != product.ProdCode))
+        if(products.length == 0 && window.location.pathname == "/order-summary"){
+            navigate("/products")
+        }
     }
 
     return (
